@@ -2,6 +2,7 @@
 
 namespace ChinLeung\LaravelMultilingualRoutes\Tests;
 
+use ChinLeung\LaravelLocales\LaravelLocalesServiceProvider;
 use ChinLeung\LaravelMultilingualRoutes\DetectRequestLocale;
 use ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider;
 use ChinLeung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
@@ -9,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
-use ChinLeung\LaravelLocales\LaravelLocalesServiceProvider;
 
 class RouteTest extends TestCase
 {
