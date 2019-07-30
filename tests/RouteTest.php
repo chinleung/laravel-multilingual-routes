@@ -6,7 +6,6 @@ use Chinleung\LaravelMultilingualRoutes\DetectRequestLocale;
 use Chinleung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider;
 use Chinleung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
