@@ -2,7 +2,6 @@
 
 namespace Chinleung\LaravelMultilingualRoutes;
 
-use Chinleung\LaravelMultilingualRoutes\MultilingualRegistrar;
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Arr;
 
