@@ -30,8 +30,8 @@ protected $middlewareGroups = [
 
 By default, the application locales are going to be `en` and `fr` and the `app.fallback_locale` is not prefixed. If your application supports different locales or you want to prefix the fallback locale, please run the following command to publish the configuration file:
 
-``` php
-php artisan vendor:publish --provider="ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider"
+``` bash
+php artisan vendor:publish --provider="ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider" --tag="config"
 ```
 
 ## Usage
