@@ -15,6 +15,17 @@ You can install the package via composer:
 composer require chinleung/laravel-multilingual-routes
 ```
 
+To detect and change the locale of the application based on the request automatically, you can add the middleware to your `app/Http/Kernel`:
+
+``` php
+protected $middlewareGroups = [
+    'web' => [
+        \Chinleung\LaravelMultilingualRoutes\DetectRequestLocale::class,
+        // ...
+    ]
+];
+```
+
 ## Configuration
 
 By default, the application locales are going to be `en` and `fr` and the `app.fallback_locale` is not prefixed. If your application supports different locales or you want to prefix the fallback locale, please run the following command to publish the configuration file:
