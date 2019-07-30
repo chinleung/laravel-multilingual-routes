@@ -1,6 +1,6 @@
 <?php
 
-namespace Chinleung\LaravelMultilingualRoutes;
+namespace ChinLeung\LaravelMultilingualRoutes;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;

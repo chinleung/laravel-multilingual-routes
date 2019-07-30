@@ -1,8 +1,8 @@
 <?php
 
-namespace Chinleung\LaravelMultilingualRoutes;
+namespace ChinLeung\LaravelMultilingualRoutes;
 
-use Chinleung\LaravelMultilingualRoutes\Macros\RouterMacros;
+use ChinLeung\LaravelMultilingualRoutes\Macros\RouterMacros;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 

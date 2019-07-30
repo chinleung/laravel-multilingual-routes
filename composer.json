@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Chinleung\\LaravelMultilingualRoutes\\": "src"
+            "ChinLeung\\LaravelMultilingualRoutes\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Chinleung\\LaravelMultilingualRoutes\\Tests\\": "tests"
+            "ChinLeung\\LaravelMultilingualRoutes\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -44,7 +44,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Chinleung\\LaravelMultilingualRoutes\\LaravelMultilingualRoutesServiceProvider"
+                "ChinLeung\\LaravelMultilingualRoutes\\LaravelMultilingualRoutesServiceProvider"
             ]
         }
     }

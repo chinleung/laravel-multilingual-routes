@@ -1,6 +1,6 @@
 <?php
 
-namespace Chinleung\LaravelMultilingualRoutes;
+namespace ChinLeung\LaravelMultilingualRoutes;
 
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Arr;
@@ -52,7 +52,7 @@ class MultilingualRoutePendingRegistration
     /**
      * Constructor of the class.
      *
-     * @param  \Chinleung\LaravelMultilingualRoutes\MultilingualRegistrar  $registrar
+     * @param  \ChinLeung\LaravelMultilingualRoutes\MultilingualRegistrar  $registrar
      * @param  string  $key
      * @param  mixed  $handle
      * @param  array  $locales

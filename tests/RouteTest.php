@@ -1,10 +1,10 @@
 <?php
 
-namespace Chinleung\LaravelMultilingualRoutes\Tests;
+namespace ChinLeung\LaravelMultilingualRoutes\Tests;
 
-use Chinleung\LaravelMultilingualRoutes\DetectRequestLocale;
-use Chinleung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider;
-use Chinleung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
+use ChinLeung\LaravelMultilingualRoutes\DetectRequestLocale;
+use ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider;
+use ChinLeung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
