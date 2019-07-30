@@ -1,0 +1,51 @@
+{
+    "name": "chinleung/laravel-multilingual-routes",
+    "description": "A package to register multilingual routes.",
+    "keywords": [
+        "chinleung",
+        "laravel-multilingual-routes"
+    ],
+    "homepage": "https://github.com/chinleung/laravel-multilingual-routes",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Chin Leung",
+            "email": "chinleung94@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "5.8.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chinleung\\LaravelMultilingualRoutes\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Chinleung\\LaravelMultilingualRoutes\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Chinleung\\LaravelMultilingualRoutes\\LaravelMultilingualRoutesServiceProvider"
+            ]
+        }
+    }
+}
