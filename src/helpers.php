@@ -1,17 +1,5 @@
 <?php
 
-if (! function_exists('locales')) {
-    /**
-     * Retrieve the locales of the application.
-     *
-     * @return array
-     */
-    function locales() : array
-    {
-        return config('app.locales') ?? config('laravel-multilingual-routes.locales');
-    }
-}
-
 if (! function_exists('localized_route')) {
     /**
      * Retrieve a localized route.

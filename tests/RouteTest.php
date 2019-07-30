@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
+use ChinLeung\LaravelLocales\LaravelLocalesServiceProvider;
 
 class RouteTest extends TestCase
 {
@@ -203,6 +204,7 @@ class RouteTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
+            LaravelLocalesServiceProvider::class,
             LaravelMultilingualRoutesServiceProvider::class,
         ];
     }

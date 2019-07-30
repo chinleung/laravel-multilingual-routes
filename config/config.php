@@ -1,12 +1,8 @@
 <?php
 
-/*
- * You can place your custom package configuration in here.
- */
 return [
-    'locales' => [
-        'en', 'fr',
-    ],
-
-    'prefix_fallback' => false,
+    /*
+     * True to prefix the routes of the fallback locale of the application.
+     */
+    'prefix_fallback' => env('MULTILINGUAL_ROUTES_PREFIX_FALLBACK', false),
 ];
