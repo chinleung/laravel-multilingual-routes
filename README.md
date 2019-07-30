@@ -48,8 +48,8 @@ This will generate the following:
 
 | Method   | URI     | Name    | Action                              |
 |----------|---------|---------|-------------------------------------|
-| GET|HEAD | en/test | en.test | App\Http\Controllers\TestController |
-| GET|HEAD | teste   | fr.test | App\Http\Controllers\TestController |
+| GET\|HEAD | en/test | en.test | App\Http\Controllers\TestController |
+| GET\|HEAD | teste   | fr.test | App\Http\Controllers\TestController |
 
 Note the `URI` column is generated from a translation file located at `resources/lang/{locale}/routes.php` which contains the key of the route like the following:
 
@@ -79,8 +79,8 @@ Route::multilingual('test', 'TestController')->name('foo');
 
 | Method   | URI     | Name   | Action                              |
 |----------|---------|--------|-------------------------------------|
-| GET|HEAD | en/test | en.foo | App\Http\Controllers\TestController |
-| GET|HEAD | teste   | fr.foo | App\Http\Controllers\TestController |
+| GET\|HEAD | en/test | en.foo | App\Http\Controllers\TestController |
+| GET\|HEAD | teste   | fr.foo | App\Http\Controllers\TestController |
 
 ### Renaming a route based on the locale
 
@@ -93,8 +93,8 @@ Route::multilingual('test', 'TestController')->names([
 
 | Method   | URI     | Name   | Action                              |
 |----------|---------|--------|-------------------------------------|
-| GET|HEAD | en/test | en.foo | App\Http\Controllers\TestController |
-| GET|HEAD | teste   | fr.bar | App\Http\Controllers\TestController |
+| GET\|HEAD | en/test | en.foo | App\Http\Controllers\TestController |
+| GET\|HEAD | teste   | fr.bar | App\Http\Controllers\TestController |
 
 ### Skipping a locale
 
@@ -104,7 +104,7 @@ Route::multilingual('test', 'TestController')->except(['fr']);
 
 | Method   | URI     | Name    | Action                              |
 |----------|---------|---------|-------------------------------------|
-| GET|HEAD | en/test | en.test | App\Http\Controllers\TestController |
+| GET\|HEAD | en/test | en.test | App\Http\Controllers\TestController |
 
 ### Restricting to a list of locales
 
@@ -115,7 +115,7 @@ Route::multilingual('test', 'TestController')->only(['fr']);
 
 | Method   | URI     | Name    | Action                              |
 |----------|---------|---------|-------------------------------------|
-| GET|HEAD | teste   | fr.test | App\Http\Controllers\TestController |
+| GET\|HEAD | teste   | fr.test | App\Http\Controllers\TestController |
 
 ### Changing the method of the request
 
