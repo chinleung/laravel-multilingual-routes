@@ -28,13 +28,28 @@ protected $middlewareGroups = [
 
 ## Configuration
 
-By default, the application locales are going to be `en` and `fr` and the `app.fallback_locale` is not prefixed. If you want to prefix the fallback locale, please run the following command to publish the configuration file:
+By default, the application locales are going to be `en` and the `app.fallback_locale` is not prefixed. If you want to prefix the fallback locale, please run the following command to publish the configuration file:
 
 ``` bash
 php artisan vendor:publish --provider="ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider" --tag="config"
 ```
 
 If your application supports different locales, you can either set a `app.locales` configuration or follow the configuration instructions from [chinleung/laravel-locales](https://github.com/chinleung/laravel-locales#configuration).
+
+## Example
+
+Instead of doing this:
+
+``` php
+Route::get('/', 'ShowHomeController')->name('en.home');
+Route::get('/fr', 'ShowHomeController')->name('fr.home');
+```
+
+You can accomplish the same result with:
+
+``` php
+Route::multilingual('/', 'ShowHomeController')->name('home');
+```
 
 ## Usage
 
