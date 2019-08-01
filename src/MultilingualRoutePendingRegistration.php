@@ -45,7 +45,7 @@ class MultilingualRoutePendingRegistration
     /**
      * The resource registrar.
      *
-     * @var \Illuminate\Routing\ResourceRegistrar
+     * @var \ChinLeung\LaravelMultilingualRoutes\MultilingualRegistrar
      */
     protected $registrar;
 
@@ -56,7 +56,6 @@ class MultilingualRoutePendingRegistration
      * @param  string  $key
      * @param  mixed  $handle
      * @param  array  $locales
-     * @return void
      */
     public function __construct(MultilingualRegistrar $registrar, string $key, $handle, array $locales = [])
     {

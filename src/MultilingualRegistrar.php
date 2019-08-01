@@ -10,10 +10,16 @@ use Illuminate\Support\Arr;
 class MultilingualRegistrar
 {
     /**
+     * The router instance.
+     *
+     * @var \Illuminate\Routing\Router
+     */
+    protected $router;
+
+    /**
      * Constructor of the class.
      *
      * @param  \Illuminate\Routing\Router  $router
-     * @return void
      */
     public function __construct(Router $router)
     {
