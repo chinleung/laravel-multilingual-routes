@@ -13,6 +13,15 @@ use Orchestra\Testbench\TestCase;
 
 class RouteTest extends TestCase
 {
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        config(['laravel-locales.supported' => [
+            'en', 'fr'
+        ]]);
+    }
+
     /** @test **/
     public function a_multilingual_route_can_be_registered() : void
     {
@@ -172,6 +181,18 @@ class RouteTest extends TestCase
                 );
             }
         );
+    }
+
+    /** @test **/
+    public function the_home_page_can_be_registered() : void
+    {
+        Route::multilingual('/', function () {
+            //
+        })->name('home');
+
+        $this->assertEquals(route('en.home'), localized_route('home'));
+        $this->assertEquals(config('app.url'), localized_route('home'));
+        $this->assertEquals(route('fr.home'), localized_route('home', [], 'fr'));
     }
 
     protected function registerTestRoute() : MultilingualRoutePendingRegistration

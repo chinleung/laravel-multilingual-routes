@@ -64,8 +64,14 @@ class MultilingualRegistrar
      */
     protected function registerRoute(string $method, string $key, $handle, string $locale) : Route
     {
+        if ($key == '/') {
+            $key = $locale == config('app.fallback_locale') ? '/' : "/$locale";
+        } else {
+            $key = trans("routes.$key", [], $locale);
+        }
+
         return $this->router->{strtolower($method)}(
-            trans("routes.$key", [], $locale),
+            $key,
             $handle
         );
     }
