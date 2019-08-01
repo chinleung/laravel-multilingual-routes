@@ -190,9 +190,8 @@ class RouteTest extends TestCase
             //
         })->name('home');
 
-        $this->assertEquals(route('en.home'), localized_route('home'));
         $this->assertEquals(config('app.url'), localized_route('home'));
-        $this->assertEquals(route('fr.home'), localized_route('home', [], 'fr'));
+        $this->assertEquals(config('app.url').'/fr', localized_route('home', [], 'fr'));
     }
 
     protected function registerTestRoute() : MultilingualRoutePendingRegistration

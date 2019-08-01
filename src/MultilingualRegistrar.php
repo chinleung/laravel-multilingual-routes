@@ -46,7 +46,7 @@ class MultilingualRegistrar
                 $this
                     ->registerRoute($method, $key, $handle, $locale)
                     ->name($this->generateNameForLocaleFromOptions($locale, $key, $options))
-                    ->prefix($this->generatePrefixForLocale($locale))
+                    ->prefix($this->generatePrefixForLocale($key, $locale))
             );
         }
 
@@ -111,11 +111,16 @@ class MultilingualRegistrar
     /**
      * Generate the prefix of the route based on the options.
      *
+     * @param  string  $key
      * @param  string  $locale
      * @return string|null
      */
-    protected function generatePrefixForLocale(string $locale) : ?string
+    protected function generatePrefixForLocale(string $key, string $locale) : ?string
     {
+        if ($key == '/') {
+            return null;
+        }
+
         if ($locale != config('app.fallback_locale')) {
             return $locale;
         }
