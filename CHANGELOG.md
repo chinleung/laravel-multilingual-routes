@@ -3,6 +3,11 @@
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
 
+## [v1.1.0 (2019-08-06)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.0.2...v1.1.0)
+
+- Added support for view routes (#5)
+
+
 ## [v1.0.2 (2019-08-01)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.0.1...v1.0.2)
 
 - Fixed home page not registering properly (#3)
