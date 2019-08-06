@@ -17,7 +17,7 @@ class RouteTest extends TestCase
     {
         parent::setUp();
 
-        config(['laravel-locales.supported' => [
+        config(['locales.supported' => [
             'en', 'fr',
         ]]);
     }
