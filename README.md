@@ -65,8 +65,8 @@ This will generate the following:
 
 | Method   | URI     | Name    | Action                              |
 |----------|---------|---------|-------------------------------------|
-| GET\|HEAD | en/test | en.test | App\Http\Controllers\TestController |
-| GET\|HEAD | teste   | fr.test | App\Http\Controllers\TestController |
+| GET\|HEAD | test | en.test | App\Http\Controllers\TestController |
+| GET\|HEAD | fr/teste   | fr.test | App\Http\Controllers\TestController |
 
 Note the `URI` column is generated from a translation file located at `resources/lang/{locale}/routes.php` which contains the key of the route like the following:
 
@@ -84,8 +84,8 @@ To retrieve a route, you can use the `localized_route(string $name, array $param
 
 ``` php
 localized_route('test'); // Returns the url of the current application locale
-localized_route('test', [], 'fr'); // Returns https://app.test/teste
-localized_route('test', [], 'en'); // Returns https://app.test/en/test
+localized_route('test', [], 'fr'); // Returns https://app.test/fr/teste
+localized_route('test', [], 'en'); // Returns https://app.test/test
 ```
 
 ### Renaming the routes
@@ -96,8 +96,8 @@ Route::multilingual('test', 'TestController')->name('foo');
 
 | Method   | URI     | Name   | Action                              |
 |----------|---------|--------|-------------------------------------|
-| GET\|HEAD | en/test | en.foo | App\Http\Controllers\TestController |
-| GET\|HEAD | teste   | fr.foo | App\Http\Controllers\TestController |
+| GET\|HEAD | test | en.foo | App\Http\Controllers\TestController |
+| GET\|HEAD | fr/teste   | fr.foo | App\Http\Controllers\TestController |
 
 ### Renaming a route based on the locale
 
@@ -110,8 +110,8 @@ Route::multilingual('test', 'TestController')->names([
 
 | Method   | URI     | Name   | Action                              |
 |----------|---------|--------|-------------------------------------|
-| GET\|HEAD | en/test | en.foo | App\Http\Controllers\TestController |
-| GET\|HEAD | teste   | fr.bar | App\Http\Controllers\TestController |
+| GET\|HEAD | test | en.foo | App\Http\Controllers\TestController |
+| GET\|HEAD | fr/teste   | fr.bar | App\Http\Controllers\TestController |
 
 ### Skipping a locale
 
@@ -121,7 +121,7 @@ Route::multilingual('test', 'TestController')->except(['fr']);
 
 | Method   | URI     | Name    | Action                              |
 |----------|---------|---------|-------------------------------------|
-| GET\|HEAD | en/test | en.test | App\Http\Controllers\TestController |
+| GET\|HEAD | test    | en.test | App\Http\Controllers\TestController |
 
 ### Restricting to a list of locales
 
@@ -132,7 +132,7 @@ Route::multilingual('test', 'TestController')->only(['fr']);
 
 | Method   | URI     | Name    | Action                              |
 |----------|---------|---------|-------------------------------------|
-| GET\|HEAD | teste   | fr.test | App\Http\Controllers\TestController |
+| GET\|HEAD | fr/teste | fr.test | App\Http\Controllers\TestController |
 
 ### Changing the method of the request
 
@@ -142,8 +142,34 @@ Route::multilingual('test', 'TestController')->method('post');
 
 | Method | URI     | Name    | Action                              |
 |--------|---------|---------|-------------------------------------|
-| POST   | en/test | en.test | App\Http\Controllers\TestController |
-| POST   | teste   | fr.test | App\Http\Controllers\TestController |
+| POST   | test | en.test | App\Http\Controllers\TestController |
+| POST   | fr/teste   | fr.test | App\Http\Controllers\TestController |
+
+### Registering a view route
+
+
+``` php
+// Loads test.blade.php
+Route::multilingual('test');
+```
+
+| Method   | URI     | Name    | Action                              |
+|----------|---------|---------|-------------------------------------|
+| GET\|HEAD | test | en.test | Illuminate\Routing\ViewController |
+| GET\|HEAD | fr/teste   | fr.test | Illuminate\Routing\ViewController |
+
+
+### Registering a view route with a different key for the route and view
+
+``` php
+// Loads welcome.blade.php instead of test.blade.php
+Route::multilingual('test')->view('welcome');
+```
+
+| Method   | URI     | Name    | Action                              |
+|----------|---------|---------|-------------------------------------|
+| GET\|HEAD | test | en.test | Illuminate\Routing\ViewController |
+| GET\|HEAD | fr/teste   | fr.test | Illuminate\Routing\ViewController |
 
 ### Testing
 
