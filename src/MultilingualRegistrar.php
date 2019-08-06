@@ -44,7 +44,7 @@ class MultilingualRegistrar
         foreach ($locales as $locale) {
             $collection->add(
                 $this
-                    ->registerRoute($method, $key, $handle, $locale)
+                    ->registerRoute($method, $key, $handle, $locale, $options)
                     ->name($this->generateNameForLocaleFromOptions($locale, $key, $options))
                     ->prefix($this->generatePrefixForLocale($key, $locale))
             );
@@ -60,18 +60,23 @@ class MultilingualRegistrar
      * @param  string  $key
      * @param  mixed  $handle
      * @param  string  $locale
+     * @param  array  $options
      * @return \Illuminate\Routing\Route
      */
-    protected function registerRoute(string $method, string $key, $handle, string $locale) : Route
+    protected function registerRoute(string $method, string $key, $handle, string $locale, array $options) : Route
     {
         if ($key == '/') {
-            $key = $locale == config('app.fallback_locale') ? '/' : "/$locale";
+            $route = $locale == config('app.fallback_locale') ? '/' : "/$locale";
         } else {
-            $key = trans("routes.$key", [], $locale);
+            $route = trans("routes.$key", [], $locale);
+        }
+
+        if (is_null($handle)) {
+            return $this->router->view($route, Arr::get($options, 'view', $key));
         }
 
         return $this->router->{strtolower($method)}(
-            $key,
+            $route,
             $handle
         );
     }

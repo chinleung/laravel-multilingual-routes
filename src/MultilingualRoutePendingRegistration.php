@@ -154,6 +154,19 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
+     * Set the view to render.
+     *
+     * @param  string  $view
+     * @return self
+     */
+    public function view(string $view) : self
+    {
+        $this->options['view'] = $view;
+
+        return $this;
+    }
+
+    /**
      * Handle the object's destruction.
      *
      * @return void

@@ -18,7 +18,7 @@ class RouterMacros
      */
     public function multilingual() : Closure
     {
-        return function ($key, $handle, $locales = []) {
+        return function ($key, $handle = null, $locales = []) {
             return new MultilingualRoutePendingRegistration(
                 $this->container && $this->container->bound(MultilingualRegistrar::class)
                     ? $this->container->make(MultilingualRegistrar::class)

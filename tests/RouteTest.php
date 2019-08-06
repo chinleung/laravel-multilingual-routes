@@ -194,6 +194,17 @@ class RouteTest extends TestCase
         $this->assertEquals(config('app.url').'/fr', localized_route('home', [], 'fr'));
     }
 
+    /** @test **/
+    public function a_route_without_handle_can_be_registered() : void
+    {
+        $this->registerTestTranslations();
+
+        Route::multilingual('test');
+
+        $this->assertEquals(config('app.url').'/test', localized_route('test'));
+        $this->assertEquals(config('app.url').'/fr/teste', localized_route('test', [], 'fr'));
+    }
+
     protected function registerTestRoute() : MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
