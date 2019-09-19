@@ -46,7 +46,6 @@ class MultilingualRegistrar
                 $this
                     ->registerRoute($method, $key, $handle, $locale, $options)
                     ->name($this->generateNameForLocaleFromOptions($locale, $key, $options))
-                    ->prefix($this->generatePrefixForLocale($key, $locale))
             );
         }
 
@@ -77,8 +76,24 @@ class MultilingualRegistrar
 
         return $this->router->{strtolower($method)}(
             $route,
-            $handle
+            $this->compileAction($key, $handle, $locale)
         );
+    }
+
+    /**
+     * Compile the action into an array including the prefix.
+     *
+     * @param string $key
+     * @param string $handle
+     * @param string $locale
+     * @return array
+     */
+    protected function compileAction(string $key, string $handle, string $locale)
+    {
+        return [
+            'uses' => $handle,
+            'prefix' => $this->generatePrefixForLocale($key, $locale)
+        ];
     }
 
     /**
