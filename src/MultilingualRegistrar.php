@@ -46,7 +46,6 @@ class MultilingualRegistrar
                 $this
                     ->registerRoute($method, $key, $handle, $locale, $options)
                     ->name($this->generateNameForLocaleFromOptions($locale, $key, $options))
-                    ->prefix($this->generatePrefixForLocale($key, $locale))
             );
         }
 
@@ -65,11 +64,7 @@ class MultilingualRegistrar
      */
     protected function registerRoute(string $method, string $key, $handle, string $locale, array $options) : Route
     {
-        if ($key == '/') {
-            $route = $locale == config('app.fallback_locale') ? '/' : "/$locale";
-        } else {
-            $route = trans("routes.$key", [], $locale);
-        }
+        $route = $this->generateRoute($key, $locale);
 
         if (is_null($handle)) {
             return $this->router->view($route, Arr::get($options, 'view', $key));
@@ -133,5 +128,27 @@ class MultilingualRegistrar
         return config('laravel-multilingual-routes.prefix_fallback')
             ? $locale
             : null;
+    }
+
+    /**
+     * Generate a route from the key and locale.
+     *
+     * @param  string  $key
+     * @param  string  $locale
+     * @return string
+     */
+    protected function generateRoute(string $key, string $locale) : string
+    {
+        if ($key == '/') {
+            $route = $locale == config('app.fallback_locale') ? '/' : "/$locale";
+        } else {
+            $route = trans("routes.$key", [], $locale);
+        }
+
+        if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
+            $route = "{$prefix}/{$route}";
+        }
+
+        return $route;
     }
 }

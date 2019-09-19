@@ -205,6 +205,15 @@ class RouteTest extends TestCase
         $this->assertEquals(config('app.url').'/fr/teste', localized_route('test', [], 'fr'));
     }
 
+    /** @test **/
+    public function a_route_with_identical_keys_can_be_registered() : void
+    {
+        Route::multilingual('test');
+
+        $this->assertEquals(config('app.url').'/routes.test', localized_route('test'));
+        $this->assertEquals(config('app.url').'/fr/routes.test', localized_route('test', [], 'fr'));
+    }
+
     protected function registerTestRoute() : MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
