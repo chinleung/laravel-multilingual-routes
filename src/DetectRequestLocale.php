@@ -15,9 +15,9 @@ class DetectRequestLocale
      */
     public function handle($request, Closure $next)
     {
-        $segment = $request->getLocale() ?: $request->segment(1);
+        $segment = $request->segment(1);
 
-        if (in_array($segment, locales())) {
+        if (!empty($segment) && $segment !== $request->getLocale() && in_array($segment, locales())) {
             app()->setLocale($segment);
         }
 
