@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.2.1 (2019-09-19)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.2.0...v1.2.1)
+
+- Fixed registration for routes with identical keys (#8)
 
 ## [v1.2.0 (2019-09-07)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.1.0...v1.2.0)
 
