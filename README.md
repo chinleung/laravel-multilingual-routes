@@ -187,7 +187,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email chinleung94@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email hello@chinleung.com instead of using the issue tracker.
 
 ## Credits
 
