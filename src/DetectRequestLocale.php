@@ -17,7 +17,7 @@ class DetectRequestLocale
     {
         $segment = $request->segment(1);
 
-        if (!empty($segment) && $segment !== $request->getLocale() && in_array($segment, locales())) {
+        if (! empty($segment) && $segment !== $request->getLocale() && in_array($segment, locales())) {
             app()->setLocale($segment);
         }
 
