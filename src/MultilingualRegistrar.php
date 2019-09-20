@@ -39,12 +39,10 @@ class MultilingualRegistrar
     {
         $collection = new RouteCollection;
 
-        $method = $this->getRequestMethodFromOptions($options);
-
         foreach ($locales as $locale) {
             $collection->add(
                 $this
-                    ->registerRoute($method, $key, $handle, $locale, $options)
+                    ->registerRoute($key, $handle, $locale, $options)
                     ->name($this->generateNameForLocaleFromOptions($locale, $key, $options))
             );
         }
@@ -55,36 +53,45 @@ class MultilingualRegistrar
     /**
      * Register a single route.
      *
-     * @param  string  $method
      * @param  string  $key
      * @param  mixed  $handle
      * @param  string  $locale
      * @param  array  $options
      * @return \Illuminate\Routing\Route
      */
-    protected function registerRoute(string $method, string $key, $handle, string $locale, array $options) : Route
+    protected function registerRoute(string $key, $handle, string $locale, array $options) : Route
     {
-        $route = $this->generateRoute($key, $locale);
-
-        if (is_null($handle)) {
-            return $this->router->view($route, Arr::get($options, 'view', $key));
-        }
-
-        return $this->router->{strtolower($method)}(
-            $route,
+        $route = $this->router->addRoute(
+            $this->getRequestMethodFromOptions($options),
+            $this->applyUniqueRegistrationKey(
+                $this->generateUriFromKey($key, $locale),
+                $locale
+            ),
             $handle
         );
+
+        if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
+            $route->setUri("{$prefix}/{$route->uri}");
+        }
+
+        return $this->cleanUniqueRegistrationKey($route, $locale);
     }
 
     /**
      * Retrieve the request method from the options.
      *
      * @param  array  $options
-     * @return string
+     * @return array
      */
-    protected function getRequestMethodFromOptions(array $options) : string
+    protected function getRequestMethodFromOptions(array $options) : array
     {
-        return $options['method'] ?? 'get';
+        $method = $options['method'] ?? 'get';
+
+        if ($method == 'get') {
+            return ['GET', 'HEAD'];
+        }
+
+        return [strtoupper($method)];
     }
 
     /**
@@ -131,24 +138,43 @@ class MultilingualRegistrar
     }
 
     /**
-     * Generate a route from the key and locale.
+     * Generate the route uri from the translation key and locale.
      *
      * @param  string  $key
      * @param  string  $locale
      * @return string
      */
-    protected function generateRoute(string $key, string $locale) : string
+    protected function generateUriFromKey(string $key, string $locale) : string
     {
         if ($key == '/') {
-            $route = $locale == config('app.fallback_locale') ? '/' : "/$locale";
-        } else {
-            $route = trans("routes.$key", [], $locale);
+            return $locale == config('app.fallback_locale') ? '/' : "/$locale";
         }
 
-        if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
-            $route = "{$prefix}/{$route}";
-        }
+        return trans("routes.$key", [], $locale);
+    }
 
-        return $route;
+    /**
+     * Apply the unique registration key to make sure the route is registered.
+     *
+     * @param  string  $uri
+     * @param  string  $locale
+     * @return string
+     */
+    protected function applyUniqueRegistrationKey(string $uri, string $locale) : string
+    {
+        return "__{$locale}__".$uri;
+    }
+
+    /**
+     * Clean the unique registration key from the route uri after it has been
+     * registered in the router.
+     *
+     * @param  \Illuminate\Routing\Route  $route
+     * @param  string  $locale
+     * @return \Illuminate\Routing\Route
+     */
+    protected function cleanUniqueRegistrationKey(Route $route, string $locale) : Route
+    {
+        return $route->setUri(str_replace("__{$locale}__", '', $route->uri));
     }
 }
