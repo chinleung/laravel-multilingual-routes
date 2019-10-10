@@ -3,7 +3,10 @@
     "description": "A package to register multilingual routes.",
     "keywords": [
         "chinleung",
-        "laravel-multilingual-routes"
+        "laravel-multilingual-routes",
+        "routing",
+        "localization",
+        "laravel"
     ],
     "homepage": "https://github.com/chinleung/laravel-multilingual-routes",
     "license": "MIT",
