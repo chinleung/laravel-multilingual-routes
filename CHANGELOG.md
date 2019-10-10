@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.2.3 (2019-10-10)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.2.2...v1.2.3)
+
+- Fixed view route registration throwing no action logic exception (#10)
+
 ## [v1.2.2 (2019-09-20)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.2.1...v1.2.2)
 
 - Fixed registration for routes with identical keys (#9)
