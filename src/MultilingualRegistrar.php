@@ -61,20 +61,43 @@ class MultilingualRegistrar
      */
     protected function registerRoute(string $key, $handle, string $locale, array $options) : Route
     {
-        $route = $this->router->addRoute(
-            $this->getRequestMethodFromOptions($options),
-            $this->applyUniqueRegistrationKey(
-                $this->generateUriFromKey($key, $locale),
-                $locale
-            ),
-            $handle
-        );
+        $route = $this->generateRoute($key, $handle, $locale, $options);
 
         if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
             $route->setUri("{$prefix}/{$route->uri}");
         }
 
         return $this->cleanUniqueRegistrationKey($route, $locale);
+    }
+
+    /**
+     * Generate a route.
+     *
+     * @param  string  $key
+     * @param  mixed  $handle
+     * @param  string  $locale
+     * @param  array  $options
+     * @return \Illuminate\Routing\Route
+     */
+    protected function generateRoute(string $key, $handle, string $locale, array $options) : Route
+    {
+        $route = $this->router->addRoute(
+            $this->getRequestMethodFromOptions($options),
+            $this->applyUniqueRegistrationKey(
+                $this->generateUriFromKey($key, $locale),
+                $locale
+            ),
+            $handle ?: '\Illuminate\Routing\ViewController'
+        );
+
+        if (is_null($handle)) {
+            return $route
+                ->defaults('view', Arr::get($options, 'view', $key))
+                ->defaults('data', Arr::get($options, 'data', []))
+            ;
+        }
+
+        return $route;
     }
 
     /**

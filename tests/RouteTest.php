@@ -227,6 +227,15 @@ class RouteTest extends TestCase
         $this->assertEquals(config('app.url').'/fr/prefix/teste', localized_route('test', [], 'fr'));
     }
 
+    /** @test **/
+    public function a_view_route_can_be_registered() : void
+    {
+        Route::multilingual('/')->view('app')->name('home');
+
+        $this->assertEquals(config('app.url'), localized_route('home'));
+        $this->assertEquals(config('app.url').'/fr', localized_route('home', [], 'fr'));
+    }
+
     protected function registerTestRoute() : MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
