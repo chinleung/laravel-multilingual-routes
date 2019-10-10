@@ -93,8 +93,7 @@ class MultilingualRegistrar
         if (is_null($handle)) {
             return $route
                 ->defaults('view', Arr::get($options, 'view', $key))
-                ->defaults('data', Arr::get($options, 'data', []))
-            ;
+                ->defaults('data', Arr::get($options, 'data', []));
         }
 
         return $route;
