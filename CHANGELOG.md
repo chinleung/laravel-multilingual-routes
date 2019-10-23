@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.3.0 (2019-10-23)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.2.3...v1.3.0)
+
+- Added support for route constraints (#12)
+
 ## [v1.2.3 (2019-10-10)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.2.2...v1.2.3)
 
 - Fixed view route registration throwing no action logic exception (#10)
