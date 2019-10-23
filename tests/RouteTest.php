@@ -245,7 +245,7 @@ class RouteTest extends TestCase
             ],
             'fr' => [
                 'routes.search' => 'recherche/{filter?}',
-            ]
+            ],
         ]);
 
         Route::multilingual('search')->where('filter', '.*')->name('search.results');
@@ -274,7 +274,7 @@ class RouteTest extends TestCase
             ],
             'fr' => [
                 'routes.test' => 'teste',
-            ]
+            ],
         ]);
     }
 
