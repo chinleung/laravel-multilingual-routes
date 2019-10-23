@@ -250,17 +250,25 @@ class RouteTest extends TestCase
 
     protected function registerTestTranslations()
     {
+        $this->registerTranslations([
+            'en' => [
+                'routes.test' => 'test',
+            ],
+            'fr' => [
+                'routes.test' => 'teste',
+            ]
+        ]);
+    }
+
+    protected function registerTranslations(array $translations) : self
+    {
         $translator = app('translator');
 
-        $translator->addLines(
-            ['routes.test' => 'test'],
-            'en'
-        );
+        foreach ($translations as $locale => $translation) {
+            $translator->addLines($translation, $locale);
+        }
 
-        $translator->addLines(
-            ['routes.test' => 'teste'],
-            'fr'
-        );
+        return $this;
     }
 
     protected function getPackageProviders($app)
