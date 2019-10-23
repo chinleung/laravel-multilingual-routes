@@ -63,6 +63,10 @@ class MultilingualRegistrar
     {
         $route = $this->generateRoute($key, $handle, $locale, $options);
 
+        foreach (Arr::get($options, 'constraints', []) as $name => $expression) {
+            $route->where($name, $expression);
+        }
+
         if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
             $route->setUri("{$prefix}/{$route->uri}");
         }

@@ -154,6 +154,24 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
+     * Set a regular expression requirement on the route.
+     *
+     * @param  array|string  $name
+     * @param  string|null  $expression
+     * @return $this
+     */
+    public function where($name, $expression = null) : self
+    {
+        if (! is_array(Arr::get($this->options, 'constraints'))) {
+            Arr::set($this->options, 'constraints', []);
+        }
+
+        Arr::set($this->options, "constraints.$name", $expression);
+
+        return $this;
+    }
+
+    /**
      * Set the view to render.
      *
      * @param  string  $view

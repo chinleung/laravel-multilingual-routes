@@ -236,6 +236,24 @@ class RouteTest extends TestCase
         $this->assertEquals(config('app.url').'/fr', localized_route('home', [], 'fr'));
     }
 
+    /** @test **/
+    public function a_route_param_can_have_constraints() : void
+    {
+        $this->registerTranslations([
+            'en' => [
+                'routes.search' => 'search/{filter?}',
+            ],
+            'fr' => [
+                'routes.search' => 'recherche/{filter?}',
+            ]
+        ]);
+
+        Route::multilingual('search')->where('filter', '.*')->name('search.results');
+
+        $this->assertEquals(config('app.url').'/search/Foo', localized_route('search.results', ['filter' => 'Foo']));
+        $this->assertEquals(config('app.url').'/fr/recherche/Bar', localized_route('search.results', ['filter' => 'Bar'], 'fr'));
+    }
+
     protected function registerTestRoute() : MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
