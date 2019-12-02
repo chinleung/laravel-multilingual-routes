@@ -126,9 +126,9 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
-    public function the_fallback_locale_routes_can_be_prefixed() : void
+    public function the_default_locale_routes_can_be_prefixed() : void
     {
-        config(['laravel-multilingual-routes.prefix_fallback' => true]);
+        config(['laravel-multilingual-routes.prefix_default' => true]);
 
         $this->registerTestRoute();
 

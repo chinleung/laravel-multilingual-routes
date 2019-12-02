@@ -150,17 +150,11 @@ class MultilingualRegistrar
      */
     protected function generatePrefixForLocale(string $key, string $locale) : ?string
     {
-        if ($key == '/') {
+        if ($key == '/' || $this->shouldNotPrefixLocale($locale)) {
             return null;
         }
 
-        if ($locale != config('app.fallback_locale')) {
-            return $locale;
-        }
-
-        return config('laravel-multilingual-routes.prefix_fallback')
-            ? $locale
-            : null;
+        return $locale;
     }
 
     /**
@@ -173,7 +167,7 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale) : string
     {
         if ($key == '/') {
-            return $locale == config('app.fallback_locale') ? '/' : "/$locale";
+            return $locale == config('laravel-multilingual-routes.default') ? '/' : "/$locale";
         }
 
         return trans("routes.$key", [], $locale);
@@ -202,5 +196,17 @@ class MultilingualRegistrar
     protected function cleanUniqueRegistrationKey(Route $route, string $locale) : Route
     {
         return $route->setUri(str_replace("__{$locale}__", '', $route->uri));
+    }
+
+    /**
+     * Verify if we should not prefix the locale.
+     *
+     * @param  string  $locale
+     * @return bool
+     */
+    protected function shouldNotPrefixLocale(string $locale) : bool
+    {
+        return $locale == config('laravel-multilingual-routes.default')
+            && ! config('laravel-multilingual-routes.prefix_default');
     }
 }
