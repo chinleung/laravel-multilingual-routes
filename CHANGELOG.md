@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.4.1 (2019-12-16)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.0...v1.4.1)
+
+- Detect locale of the request through `Accept-Language` [#15](https://github.com/chinleung/laravel-multilingual-routes/pull/15)
+
 ## [v1.4.0 (2019-12-02)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.3.0...v1.4.0)
 
 - Added configuration `MULTILINGUAL_ROUTES_DEFAULT_LOCALE` to customize the default locale [#14](https://github.com/chinleung/laravel-multilingual-routes/issues/14)
