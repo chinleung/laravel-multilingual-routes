@@ -15,27 +15,12 @@ class DetectRequestLocale
      */
     public function handle($request, Closure $next)
     {
-        if ($locale = $this->getLocaleFromRequest($request)) {
-            app()->setLocale($locale);
+        $segment = $request->locale ?: $request->segment(1);
+
+        if (in_array($segment, locales())) {
+            app()->setLocale($segment);
         }
 
         return $next($request);
-    }
-
-    /**
-     * Guess the locale from request query, path or headers.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
-     */
-    public function getLocaleFromRequest($request): ?string
-    {
-        $segment = $request->query('locale') ?: $request->segment(1);
-
-        if ($segment && in_array($segment, locales())) {
-            return $segment;
-        }
-
-        return $request->getPreferredLanguage(locales());
     }
 }
