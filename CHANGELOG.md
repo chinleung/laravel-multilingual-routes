@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.4.3 (2020-01-09)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.2...v1.4.3)
+
+- Fix home page not being prefixed properly
+
 ## [v1.4.2 (2019-12-18)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.1...v1.4.2)
 
 - Revert the locale detection changes through the `Accept-Language` [#16](https://github.com/chinleung/laravel-multilingual-routes/pull/15#issuecomment-567058440)
