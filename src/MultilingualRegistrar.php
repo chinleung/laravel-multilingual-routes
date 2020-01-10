@@ -167,7 +167,7 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale) : string
     {
         if ($key == '/') {
-            return $locale == config('laravel-multilingual-routes.default') ? '/' : "/$locale";
+            return $this->shouldNotPrefixLocale($locale) ? '/' : "/$locale";
         }
 
         return trans("routes.$key", [], $locale);
