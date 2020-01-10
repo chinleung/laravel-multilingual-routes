@@ -16,7 +16,7 @@ class RouterMacros
      * @param  array  $locales
      * @return \Closure
      */
-    public function multilingual() : Closure
+    public function multilingual(): Closure
     {
         return function ($key, $handle = null, $locales = []) {
             return new MultilingualRoutePendingRegistration(

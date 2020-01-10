@@ -70,7 +70,7 @@ class MultilingualRoutePendingRegistration
      *
      * @return \Illuminate\Routing\RouteCollection
      */
-    public function register() : RouteCollection
+    public function register(): RouteCollection
     {
         $this->registered = true;
 
@@ -88,7 +88,7 @@ class MultilingualRoutePendingRegistration
      * @param  string|array  $locales
      * @return self
      */
-    public function except($locales) : self
+    public function except($locales): self
     {
         $this->options['locales'] = array_diff(
             $this->locales,
@@ -104,7 +104,7 @@ class MultilingualRoutePendingRegistration
      * @param  string  $name
      * @return self
      */
-    public function name(string $name) : self
+    public function name(string $name): self
     {
         $this->options['name'] = $name;
 
@@ -117,7 +117,7 @@ class MultilingualRoutePendingRegistration
      * @param  string  $method
      * @return self
      */
-    public function method(string $method) : self
+    public function method(string $method): self
     {
         $this->options['method'] = $method;
 
@@ -130,7 +130,7 @@ class MultilingualRoutePendingRegistration
      * @param  array  $names
      * @return self
      */
-    public function names(array $names) : self
+    public function names(array $names): self
     {
         $this->options['names'] = $names;
 
@@ -143,7 +143,7 @@ class MultilingualRoutePendingRegistration
      * @param  string|array  $locales
      * @return self
      */
-    public function only($locales) : self
+    public function only($locales): self
     {
         $this->options['locales'] = array_intersect(
             $this->locales,
@@ -160,7 +160,7 @@ class MultilingualRoutePendingRegistration
      * @param  string|null  $expression
      * @return $this
      */
-    public function where($name, $expression = null) : self
+    public function where($name, $expression = null): self
     {
         if (! is_array(Arr::get($this->options, 'constraints'))) {
             Arr::set($this->options, 'constraints', []);
@@ -177,7 +177,7 @@ class MultilingualRoutePendingRegistration
      * @param  string  $view
      * @return self
      */
-    public function view(string $view) : self
+    public function view(string $view): self
     {
         $this->options['view'] = $view;
 
