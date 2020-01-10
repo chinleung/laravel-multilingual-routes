@@ -10,7 +10,7 @@ if (! function_exists('localized_route')) {
      * @param  bool  $absolute
      * @return string
      */
-    function localized_route(string $name, $parameters = [], string $locale = null, bool $absolute = true) : string
+    function localized_route(string $name, $parameters = [], string $locale = null, bool $absolute = true): string
     {
         if (! in_array($locale, locales())) {
             $locale = app()->getLocale();

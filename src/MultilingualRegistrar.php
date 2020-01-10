@@ -35,7 +35,7 @@ class MultilingualRegistrar
      * @param  array  $options
      * @return \Illuminate\Routing\RouteCollection
      */
-    public function register(string $key, $handle, array $locales, array $options) : RouteCollection
+    public function register(string $key, $handle, array $locales, array $options): RouteCollection
     {
         $collection = new RouteCollection;
 
@@ -59,7 +59,7 @@ class MultilingualRegistrar
      * @param  array  $options
      * @return \Illuminate\Routing\Route
      */
-    protected function registerRoute(string $key, $handle, string $locale, array $options) : Route
+    protected function registerRoute(string $key, $handle, string $locale, array $options): Route
     {
         $route = $this->generateRoute($key, $handle, $locale, $options);
 
@@ -83,7 +83,7 @@ class MultilingualRegistrar
      * @param  array  $options
      * @return \Illuminate\Routing\Route
      */
-    protected function generateRoute(string $key, $handle, string $locale, array $options) : Route
+    protected function generateRoute(string $key, $handle, string $locale, array $options): Route
     {
         $route = $this->router->addRoute(
             $this->getRequestMethodFromOptions($options),
@@ -109,7 +109,7 @@ class MultilingualRegistrar
      * @param  array  $options
      * @return array
      */
-    protected function getRequestMethodFromOptions(array $options) : array
+    protected function getRequestMethodFromOptions(array $options): array
     {
         $method = $options['method'] ?? 'get';
 
@@ -128,7 +128,7 @@ class MultilingualRegistrar
      * @param  array  $options
      * @return string
      */
-    protected function generateNameForLocaleFromOptions(string $locale, string $key, array $options) : string
+    protected function generateNameForLocaleFromOptions(string $locale, string $key, array $options): string
     {
         if ($name = Arr::get($options, "names.$locale")) {
             return "$locale.$name";
@@ -148,7 +148,7 @@ class MultilingualRegistrar
      * @param  string  $locale
      * @return string|null
      */
-    protected function generatePrefixForLocale(string $key, string $locale) : ?string
+    protected function generatePrefixForLocale(string $key, string $locale): ?string
     {
         if ($key == '/' || $this->shouldNotPrefixLocale($locale)) {
             return null;
@@ -164,7 +164,7 @@ class MultilingualRegistrar
      * @param  string  $locale
      * @return string
      */
-    protected function generateUriFromKey(string $key, string $locale) : string
+    protected function generateUriFromKey(string $key, string $locale): string
     {
         if ($key == '/') {
             return $this->shouldNotPrefixLocale($locale) ? '/' : "/$locale";
@@ -180,7 +180,7 @@ class MultilingualRegistrar
      * @param  string  $locale
      * @return string
      */
-    protected function applyUniqueRegistrationKey(string $uri, string $locale) : string
+    protected function applyUniqueRegistrationKey(string $uri, string $locale): string
     {
         return "__{$locale}__".$uri;
     }
@@ -193,7 +193,7 @@ class MultilingualRegistrar
      * @param  string  $locale
      * @return \Illuminate\Routing\Route
      */
-    protected function cleanUniqueRegistrationKey(Route $route, string $locale) : Route
+    protected function cleanUniqueRegistrationKey(Route $route, string $locale): Route
     {
         return $route->setUri(str_replace("__{$locale}__", '', $route->uri));
     }
@@ -204,7 +204,7 @@ class MultilingualRegistrar
      * @param  string  $locale
      * @return bool
      */
-    protected function shouldNotPrefixLocale(string $locale) : bool
+    protected function shouldNotPrefixLocale(string $locale): bool
     {
         return $locale == config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default');
