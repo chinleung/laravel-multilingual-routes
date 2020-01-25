@@ -171,8 +171,7 @@ class MultilingualRegistrar
 
         return Lang::has("routes.{$key}")
             ? trans("routes.{$key}", [], $locale)
-            : $key
-        ;
+            : $key;
     }
 
     /**
