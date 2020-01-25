@@ -210,8 +210,8 @@ class RouteTest extends TestCase
     {
         Route::multilingual('test');
 
-        $this->assertEquals(config('app.url').'/routes.test', localized_route('test'));
-        $this->assertEquals(config('app.url').'/fr/routes.test', localized_route('test', [], 'fr'));
+        $this->assertEquals(config('app.url').'/test', localized_route('test'));
+        $this->assertEquals(config('app.url').'/fr/test', localized_route('test', [], 'fr'));
     }
 
     /** @test **/
@@ -252,6 +252,16 @@ class RouteTest extends TestCase
 
         $this->assertEquals(config('app.url').'/search/Foo', localized_route('search.results', ['filter' => 'Foo']));
         $this->assertEquals(config('app.url').'/fr/recherche/Bar', localized_route('search.results', ['filter' => 'Bar'], 'fr'));
+    }
+
+    /** @test **/
+    public function a_route_without_translation_will_be_registered_with_its_key(): void
+    {
+        Route::multilingual('test');
+
+        dd(url('/test'), config('app.url').'/test');
+        $this->assertEquals(config('app.url').'/test', localized_route('test'));
+        $this->assertEquals(config('app.url').'/fr/test', localized_route('test', [], 'fr'));
     }
 
     protected function registerTestRoute(): MultilingualRoutePendingRegistration

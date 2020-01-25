@@ -6,6 +6,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Lang;
 
 class MultilingualRegistrar
 {
@@ -170,7 +171,10 @@ class MultilingualRegistrar
             return $this->shouldNotPrefixLocale($locale) ? '/' : "/$locale";
         }
 
-        return trans("routes.$key", [], $locale);
+        return Lang::has("routes.{$key}")
+            ? trans("routes.{$key}", [], $locale)
+            : $key
+        ;
     }
 
     /**
