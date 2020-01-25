@@ -190,8 +190,8 @@ class RouteTest extends TestCase
             //
         })->name('home');
 
-        $this->assertEquals(config('app.url'), localized_route('home'));
-        $this->assertEquals(config('app.url').'/fr', localized_route('home', [], 'fr'));
+        $this->assertEquals(url(''), localized_route('home'));
+        $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
     /** @test **/
@@ -201,8 +201,8 @@ class RouteTest extends TestCase
 
         Route::multilingual('test');
 
-        $this->assertEquals(config('app.url').'/test', localized_route('test'));
-        $this->assertEquals(config('app.url').'/fr/teste', localized_route('test', [], 'fr'));
+        $this->assertEquals(url('test'), localized_route('test'));
+        $this->assertEquals(url('fr/teste'), localized_route('test', [], 'fr'));
     }
 
     /** @test **/
@@ -210,8 +210,8 @@ class RouteTest extends TestCase
     {
         Route::multilingual('test');
 
-        $this->assertEquals(config('app.url').'/test', localized_route('test'));
-        $this->assertEquals(config('app.url').'/fr/test', localized_route('test', [], 'fr'));
+        $this->assertEquals(url('test'), localized_route('test'));
+        $this->assertEquals(url('fr/test'), localized_route('test', [], 'fr'));
     }
 
     /** @test **/
@@ -223,8 +223,8 @@ class RouteTest extends TestCase
             Route::multilingual('test');
         });
 
-        $this->assertEquals(config('app.url').'/prefix/test', localized_route('test'));
-        $this->assertEquals(config('app.url').'/fr/prefix/teste', localized_route('test', [], 'fr'));
+        $this->assertEquals(url('prefix/test'), localized_route('test'));
+        $this->assertEquals(url('fr/prefix/teste'), localized_route('test', [], 'fr'));
     }
 
     /** @test **/
@@ -233,7 +233,7 @@ class RouteTest extends TestCase
         Route::multilingual('/')->view('app')->name('home');
 
         $this->assertEquals(config('app.url'), localized_route('home'));
-        $this->assertEquals(config('app.url').'/fr', localized_route('home', [], 'fr'));
+        $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
     /** @test **/
@@ -250,8 +250,8 @@ class RouteTest extends TestCase
 
         Route::multilingual('search')->where('filter', '.*')->name('search.results');
 
-        $this->assertEquals(config('app.url').'/search/Foo', localized_route('search.results', ['filter' => 'Foo']));
-        $this->assertEquals(config('app.url').'/fr/recherche/Bar', localized_route('search.results', ['filter' => 'Bar'], 'fr'));
+        $this->assertEquals(url('search/Foo'), localized_route('search.results', ['filter' => 'Foo']));
+        $this->assertEquals(url('fr/recherche/Bar'), localized_route('search.results', ['filter' => 'Bar'], 'fr'));
     }
 
     /** @test **/
@@ -259,9 +259,8 @@ class RouteTest extends TestCase
     {
         Route::multilingual('test');
 
-        dd(url('/test'), config('app.url').'/test');
-        $this->assertEquals(config('app.url').'/test', localized_route('test'));
-        $this->assertEquals(config('app.url').'/fr/test', localized_route('test', [], 'fr'));
+        $this->assertEquals(url('test'), localized_route('test'));
+        $this->assertEquals(url('fr/test'), localized_route('test', [], 'fr'));
     }
 
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
