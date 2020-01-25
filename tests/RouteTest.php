@@ -276,6 +276,35 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/teste'), localized_route('test', [], 'fr'));
     }
 
+    /** @test **/
+    public function the_current_route_can_be_retrieved_in_a_different_locale(): void
+    {
+        $this->registerTestRoute();
+
+        Route::dispatch(Request::create(localized_route('test')));
+
+        $this->assertEquals(localized_route('test', [], 'fr'), current_route('fr'));
+    }
+
+    /** @test **/
+    public function the_current_route_can_be_retrieved_in_a_different_locale_with_query_strings(): void
+    {
+        $this->registerTestRoute();
+
+        app()->bind('request', function () {
+            return Request::create(localized_route('test'), 'GET', [
+                'foo' => 'bar',
+            ]);
+        });
+
+        Route::dispatch(request());
+
+        $this->assertEquals(
+            localized_route('test', ['foo' => 'bar'], 'fr'),
+            current_route('fr')
+        );
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();

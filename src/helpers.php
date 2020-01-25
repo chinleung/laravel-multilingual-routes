@@ -1,5 +1,32 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+
+if (! function_exists('current_route')) {
+    /**
+     * Retrieve the current route in another locale.
+     *
+     * @param  string  $locale
+     * @return string
+     */
+    function current_route(string $locale = null): string
+    {
+        $route = Route::getCurrentRoute();
+        $query = request()->getQueryString();
+
+        if (! $route->getName() || ! in_array($locale, locales())) {
+            return url($route->uri.($query ? "?{$query}" : null));
+        }
+
+        return localized_route(
+            Str::replaceFirst(locale().'.', null, $route->getName()),
+            $query,
+            $locale
+        );
+    }
+}
+
 if (! function_exists('localized_route')) {
     /**
      * Retrieve a localized route.
@@ -13,7 +40,7 @@ if (! function_exists('localized_route')) {
     function localized_route(string $name, $parameters = [], string $locale = null, bool $absolute = true): string
     {
         if (! in_array($locale, locales())) {
-            $locale = app()->getLocale();
+            $locale = locale();
         }
 
         return route("$locale.$name", $parameters, $absolute);
