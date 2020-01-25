@@ -1,16 +1,16 @@
 <?php
 
-namespace ChinLeung\LaravelMultilingualRoutes;
+namespace ChinLeung\MultilingualRoutes;
 
-use ChinLeung\LaravelMultilingualRoutes\Macros\RedirectorMacros;
-use ChinLeung\LaravelMultilingualRoutes\Macros\RequestMacros;
-use ChinLeung\LaravelMultilingualRoutes\Macros\RouterMacros;
+use ChinLeung\MultilingualRoutes\Macros\RedirectorMacros;
+use ChinLeung\MultilingualRoutes\Macros\RequestMacros;
+use ChinLeung\MultilingualRoutes\Macros\RouterMacros;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelMultilingualRoutesServiceProvider extends ServiceProvider
+class MultilingualRoutesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

@@ -1,6 +1,6 @@
 <?php
 
-namespace ChinLeung\LaravelMultilingualRoutes;
+namespace ChinLeung\MultilingualRoutes;
 
 use Closure;
 

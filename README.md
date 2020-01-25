@@ -20,7 +20,7 @@ To detect and change the locale of the application based on the request automati
 ``` php
 protected $middlewareGroups = [
     'web' => [
-        \ChinLeung\LaravelMultilingualRoutes\DetectRequestLocale::class,
+        \ChinLeung\MultilingualRoutes\DetectRequestLocale::class,
         // ...
     ]
 ];
@@ -31,7 +31,7 @@ protected $middlewareGroups = [
 By default, the application locales are only going to be `en` and the default locale is not prefixed. If you want to prefix the default locale, please run the following command to publish the configuration file:
 
 ``` bash
-php artisan vendor:publish --provider="ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider" --tag="config"
+php artisan vendor:publish --provider="ChinLeung\MultilingualRoutes\MultilingualRoutesServiceProvider" --tag="config"
 ```
 
 If your application supports different locales, you can either set a `app.locales` configuration or follow the configuration instructions from [chinleung/laravel-locales](https://github.com/chinleung/laravel-locales#configuration).

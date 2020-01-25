@@ -1,9 +1,9 @@
 <?php
 
-namespace ChinLeung\LaravelMultilingualRoutes\Macros;
+namespace ChinLeung\MultilingualRoutes\Macros;
 
-use ChinLeung\LaravelMultilingualRoutes\MultilingualRegistrar;
-use ChinLeung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
+use ChinLeung\MultilingualRoutes\MultilingualRegistrar;
+use ChinLeung\MultilingualRoutes\MultilingualRoutePendingRegistration;
 use Closure;
 
 class RouterMacros

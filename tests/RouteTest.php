@@ -1,11 +1,11 @@
 <?php
 
-namespace ChinLeung\LaravelMultilingualRoutes\Tests;
+namespace ChinLeung\MultilingualRoutes\Tests;
 
 use ChinLeung\LaravelLocales\LaravelLocalesServiceProvider;
-use ChinLeung\LaravelMultilingualRoutes\DetectRequestLocale;
-use ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider;
-use ChinLeung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
+use ChinLeung\MultilingualRoutes\DetectRequestLocale;
+use ChinLeung\MultilingualRoutes\MultilingualRoutePendingRegistration;
+use ChinLeung\MultilingualRoutes\MultilingualRoutesServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
@@ -344,7 +344,7 @@ class RouteTest extends TestCase
     {
         return [
             LaravelLocalesServiceProvider::class,
-            LaravelMultilingualRoutesServiceProvider::class,
+            MultilingualRoutesServiceProvider::class,
         ];
     }
 }
