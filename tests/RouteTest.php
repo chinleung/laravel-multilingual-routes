@@ -263,6 +263,19 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/test'), localized_route('test', [], 'fr'));
     }
 
+    /** @test **/
+    public function a_starting_slash_will_be_trimmed_from_translation(): void
+    {
+        $this->registerTestTranslations();
+
+        Route::multilingual('/test', function () {
+            //
+        });
+
+        $this->assertEquals(url('test'), localized_route('test'));
+        $this->assertEquals(url('fr/teste'), localized_route('test', [], 'fr'));
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
