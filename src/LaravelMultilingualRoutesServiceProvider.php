@@ -2,10 +2,12 @@
 
 namespace ChinLeung\LaravelMultilingualRoutes;
 
+use ChinLeung\LaravelMultilingualRoutes\Macros\RedirectorMacros;
 use ChinLeung\LaravelMultilingualRoutes\Macros\RequestMacros;
 use ChinLeung\LaravelMultilingualRoutes\Macros\RouterMacros;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelMultilingualRoutesServiceProvider extends ServiceProvider
@@ -15,6 +17,7 @@ class LaravelMultilingualRoutesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Redirect::mixin(new RedirectorMacros);
         Request::mixin(new RequestMacros);
         Router::mixin(new RouterMacros);
 
