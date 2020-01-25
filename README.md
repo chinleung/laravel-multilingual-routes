@@ -82,15 +82,22 @@ return [
 
 To retrieve a route, you can use the `localized_route(string $name, array $parameters, string $locale = null, bool $absolute = true)` instead of the `route` helper:
 
-``` php
+```php
 localized_route('test'); // Returns the url of the current application locale
 localized_route('test', [], 'fr'); // Returns https://app.test/fr/teste
 localized_route('test', [], 'en'); // Returns https://app.test/test
 ```
 
+To retrieve the current route in another locale, you can use the `current_route(string $locale = null)` helper:
+
+```php
+current_route(); // Returns the current request's route
+current_route('fr'); // Returns the current request's route in French version
+```
+
 ### Renaming the routes
 
-``` php
+```php
 Route::multilingual('test', 'TestController')->name('foo');
 ```
 
@@ -101,7 +108,7 @@ Route::multilingual('test', 'TestController')->name('foo');
 
 ### Renaming a route based on the locale
 
-``` php
+```php
 Route::multilingual('test', 'TestController')->names([
   'en' => 'foo',
   'fr' => 'bar',
@@ -115,7 +122,7 @@ Route::multilingual('test', 'TestController')->names([
 
 ### Skipping a locale
 
-``` php
+```php
 Route::multilingual('test', 'TestController')->except(['fr']);
 ```
 
@@ -125,7 +132,7 @@ Route::multilingual('test', 'TestController')->except(['fr']);
 
 ### Restricting to a list of locales
 
-``` php
+```php
 Route::multilingual('test', 'TestController')->only(['fr']);
 ```
 
@@ -136,7 +143,7 @@ Route::multilingual('test', 'TestController')->only(['fr']);
 
 ### Changing the method of the request
 
-``` php
+```php
 Route::multilingual('test', 'TestController')->method('post');
 ```
 
@@ -148,7 +155,7 @@ Route::multilingual('test', 'TestController')->method('post');
 ### Registering a view route
 
 
-``` php
+```php
 // Loads test.blade.php
 Route::multilingual('test');
 ```
@@ -161,7 +168,7 @@ Route::multilingual('test');
 
 ### Registering a view route with a different key for the route and view
 
-``` php
+```php
 // Loads welcome.blade.php instead of test.blade.php
 Route::multilingual('test')->view('welcome');
 ```
@@ -173,7 +180,7 @@ Route::multilingual('test')->view('welcome');
 
 ### Testing
 
-``` bash
+```bash
 composer test
 ```
 
