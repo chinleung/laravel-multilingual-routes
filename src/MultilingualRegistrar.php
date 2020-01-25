@@ -38,17 +38,11 @@ class MultilingualRegistrar
      */
     public function register(string $key, $handle, array $locales, array $options): RouteCollection
     {
-        $collection = new RouteCollection;
-
         foreach ($locales as $locale) {
-            $collection->add(
-                $this
-                    ->registerRoute($key, $handle, $locale, $options)
-                    ->name($this->generateNameForLocaleFromOptions($locale, $key, $options))
-            );
+            $this->registerRoute($key, $handle, $locale, $options);
         }
 
-        return $collection;
+        return tap($this->router->getRoutes())->refreshNameLookups();
     }
 
     /**
@@ -71,6 +65,10 @@ class MultilingualRegistrar
         if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
             $route->setUri("{$prefix}/{$route->uri}");
         }
+
+        $route->name(
+            $this->generateNameForLocaleFromOptions($locale, $key, $options)
+        );
 
         return $this->cleanUniqueRegistrationKey($route, $locale);
     }
