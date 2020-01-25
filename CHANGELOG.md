@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.5.0 (2020-01-24)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.3...v1.5.0)
+
+- Trim starting slash from key [#21](https://github.com/chinleung/laravel-multilingual-routes/issues/21)
+- Added `isLocalizedRoute` macro to `Illuminate\Http\Request` [#22](https://github.com/chinleung/laravel-multilingual-routes/issues/22)
+- Improved the default behaviour for keys without translations [#23](https://github.com/chinleung/laravel-multilingual-routes/issues/23)
+- Added `localizedRoute` macro to `Illuminate\Routing\Redirector` [#24](https://github.com/chinleung/laravel-multilingual-routes/issues/24)
+- Added helper `current_route` [#25](https://github.com/chinleung/laravel-multilingual-routes/issues/25)
+
 ## [v1.4.3 (2020-01-09)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.2...v1.4.3)
 
 - Fix home page not being prefixed properly
