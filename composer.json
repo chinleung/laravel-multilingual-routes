@@ -14,12 +14,12 @@
     "authors": [
         {
             "name": "Chin Leung",
-            "email": "chinleung94@gmail.com",
+            "email": "hello@chinleung.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "chinleung/laravel-locales": "^1.0",
         "illuminate/support": "~5.8.0|^6.0"
     },
