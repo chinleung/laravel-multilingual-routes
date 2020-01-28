@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v2.0.1 (2020-01-28)](https://github.com/chinleung/laravel-multilingual-routes/compare/v2.0.0...v2.0.1)
+
+- Fixed homepage returning 404 [#28](https://github.com/chinleung/laravel-multilingual-routes/issues/28)
+
 ## [v2.0.0 (2020-01-24)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.0...v2.0.0)
 
 - Rename the namespace from `ChinLeung\LaravelMultilingualRoutes` to `ChinLeung\MultilingualRoutes` [#26](https://github.com/chinleung/laravel-multilingual-routes/issues/26)
