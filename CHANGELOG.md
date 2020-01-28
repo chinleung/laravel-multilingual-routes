@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.5.1 (2020-01-28)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.3...v1.5.1)
+
+- Fixed homepage returning 404 [#28](https://github.com/chinleung/laravel-multilingual-routes/issues/28)
+
 ## [v1.5.0 (2020-01-24)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.4.3...v1.5.0)
 
 - Trim starting slash from key [#21](https://github.com/chinleung/laravel-multilingual-routes/issues/21)
