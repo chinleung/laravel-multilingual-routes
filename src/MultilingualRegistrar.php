@@ -66,9 +66,16 @@ class MultilingualRegistrar
             $route->setUri("{$prefix}/{$route->uri}");
         }
 
-        $route->name(
-            $this->generateNameForLocaleFromOptions($locale, $key, $options)
-        );
+        data_set($route, 'action.as', (
+            $this->generateNameForLocaleFromOptions(
+                $locale,
+                $key,
+                array_merge(
+                    ['as' => data_get($route, 'action.as')],
+                    $options
+                )
+            )
+        ));
 
         return $this->cleanUniqueRegistrationKey($route, $locale);
     }
@@ -129,15 +136,15 @@ class MultilingualRegistrar
      */
     protected function generateNameForLocaleFromOptions(string $locale, string $key, array $options): string
     {
-        if ($name = Arr::get($options, "names.$locale")) {
-            return "$locale.$name";
+        $name = Arr::get($options, "names.{$locale}", Arr::get($options, 'name', $key));
+
+        if ($prefix = Arr::get($options, 'as')) {
+            return config('laravel-multilingual-routes.name_prefix_before_locale')
+                ? "{$prefix}{$locale}.{$name}"
+                : "{$locale}.{$prefix}{$name}";
         }
 
-        return sprintf(
-            '%s.%s',
-            $locale,
-            Arr::get($options, 'name', $key)
-        );
+        return "{$locale}.{$name}";
     }
 
     /**

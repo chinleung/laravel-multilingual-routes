@@ -305,6 +305,32 @@ class RouteTest extends TestCase
         );
     }
 
+    /** @test **/
+    public function a_route_prefix_can_be_registered_after_the_locale(): void
+    {
+        Route::name('prefix.')->group(function () {
+            Route::multilingual('test');
+        });
+
+        $this->assertNotNull(localized_route('prefix.test'));
+        $this->assertNotNull(localized_route('prefix.test', [], 'fr'));
+    }
+
+    /** @test **/
+    public function a_route_prefix_can_be_registered_before_the_locale(): void
+    {
+        config([
+            'laravel-multilingual-routes.name_prefix_before_locale' => true,
+        ]);
+
+        Route::name('prefix.')->group(function () {
+            Route::multilingual('test');
+        });
+
+        $this->assertNotNull(route('prefix.en.test'));
+        $this->assertNotNull(route('prefix.fr.test'));
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
