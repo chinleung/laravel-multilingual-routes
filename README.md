@@ -178,17 +178,17 @@ Route::multilingual('test')->view('welcome');
 | GET\|HEAD | test | en.test | Illuminate\Routing\ViewController |
 | GET\|HEAD | fr/teste   | fr.test | Illuminate\Routing\ViewController |
 
-### Upgrading from 1.x
+## Upgrading from 1.x to 2.x
 
 To update from 1.x to 2.x, you simply have to rename the namespace occurrences in your application from `LaravelMultilingualRoutes` to `MultilingualRoutes`. The most common use case would be the `DetectRequestLocale` middleware.
 
-### Testing
+## Testing
 
 ```bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
