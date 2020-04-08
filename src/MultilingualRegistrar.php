@@ -39,7 +39,13 @@ class MultilingualRegistrar
     public function register(string $key, $handle, array $locales, array $options): RouteCollection
     {
         foreach ($locales as $locale) {
-            $this->registerRoute($key, $handle, $locale, $options);
+          $route =  $this->registerRoute($key, $handle, $locale, $options);
+
+          if (isset($options['defaults']) && is_array($options['defaults'])) {
+              foreach ( $options['defaults'] as $paramKey => $paramValue) {
+                  $route->defaults($paramKey, $paramValue);
+              }
+          }
         }
 
         return tap($this->router->getRoutes())->refreshNameLookups();

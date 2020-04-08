@@ -185,6 +185,19 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
+     * Set default parameters values of the routes.
+     *
+     * @param  array  $defaults
+     * @return self
+     */
+    public function defaults(array $defaults): self
+    {
+        $this->options['defaults'] = $defaults;
+
+        return $this;
+    }
+        
+    /**
      * Handle the object's destruction.
      *
      * @return void
