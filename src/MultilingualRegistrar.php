@@ -162,7 +162,10 @@ class MultilingualRegistrar
      */
     protected function generatePrefixForLocale(string $key, string $locale): ?string
     {
-        if ($key == '/' || $this->shouldNotPrefixLocale($locale)) {
+        // dd(config('laravel-multilingual-routes.prefix_default_home'), $this->shouldNotPrefixDefaultHome($locale));
+        // if (($key == '/' && $this->shouldNotPrefixDefaultHome($locale)) || $this->shouldNotPrefixLocale($locale)) {
+            if (($key == '/' ) || $this->shouldNotPrefixLocale($locale)) {
+            // dd($key,  $locale);
             return null;
         }
 
@@ -179,7 +182,8 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale): string
     {
         if ($key == '/') {
-            return $this->shouldNotPrefixLocale($locale) ? '/' : "/$locale";
+            return $this->shouldNotPrefixLocale($locale) ||
+            $this->shouldNotPrefixDefaultHome($locale) ? '/' : "/$locale";
         }
 
         return Lang::has("routes.{$key}")
@@ -222,5 +226,17 @@ class MultilingualRegistrar
     {
         return $locale == config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default');
+    }
+
+    /**
+     * Verify if we should not prefix the default Home Route.
+     *
+     * @param  string  $locale
+     * @return bool
+     */
+    protected function shouldNotPrefixDefaultHome(string $locale): bool
+    {
+        return $locale == config('laravel-multilingual-routes.default')
+            && ! config('laravel-multilingual-routes.prefix_default_home');
     }
 }
