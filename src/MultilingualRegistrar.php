@@ -162,10 +162,7 @@ class MultilingualRegistrar
      */
     protected function generatePrefixForLocale(string $key, string $locale): ?string
     {
-        // dd(config('laravel-multilingual-routes.prefix_default_home'), $this->shouldNotPrefixDefaultHome($locale));
-        // if (($key == '/' && $this->shouldNotPrefixDefaultHome($locale)) || $this->shouldNotPrefixLocale($locale)) {
-            if (($key == '/' ) || $this->shouldNotPrefixLocale($locale)) {
-            // dd($key,  $locale);
+        if (($key == '/' ) || $this->shouldNotPrefixLocale($locale)) {
             return null;
         }
 
