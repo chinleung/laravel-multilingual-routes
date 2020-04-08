@@ -338,7 +338,7 @@ class RouteTest extends TestCase
         Route::multilingual('test')->defaults($params)->name('test');
 
         foreach (config('locales.supported') as $locale) {
-            $route = \Route::getRoutes()->getByName($locale.'.test');
+            $route = Route::getRoutes()->getByName($locale.'.test');
 
             foreach ($params as $key => $value) {
                 $this->assertArrayHasKey($key, $route->defaults);
