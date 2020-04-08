@@ -347,7 +347,7 @@ class RouteTest extends TestCase
         }
     }
 
-     /** @test **/
+    /** @test **/
     public function the_default_home_page_can_be_registered_with_prefix(): void
     {
         config([
@@ -356,7 +356,7 @@ class RouteTest extends TestCase
         ]);
 
         Route::multilingual('/', function () {
-
+            //
         })->name('home');
 
         $this->assertEquals(url('en'), localized_route('home'));
@@ -372,7 +372,7 @@ class RouteTest extends TestCase
         ]);
 
         Route::multilingual('/', function () {
-
+            //
         })->name('home');
 
         $this->assertEquals(url(''), localized_route('home'));
