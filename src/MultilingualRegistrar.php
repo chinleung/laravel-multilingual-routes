@@ -162,7 +162,7 @@ class MultilingualRegistrar
      */
     protected function generatePrefixForLocale(string $key, string $locale): ?string
     {
-        if (($key == '/' ) || $this->shouldNotPrefixLocale($locale)) {
+        if ($key == '/' || $this->shouldNotPrefixLocale($locale)) {
             return null;
         }
 

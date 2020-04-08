@@ -355,7 +355,6 @@ class RouteTest extends TestCase
             'laravel-multilingual-routes.prefix_default_home' => true,
         ]);
 
-
         Route::multilingual('/', function () {
 
         })->name('home');
