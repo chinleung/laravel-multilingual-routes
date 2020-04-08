@@ -196,7 +196,7 @@ class MultilingualRoutePendingRegistration
 
         return $this;
     }
-        
+
     /**
      * Handle the object's destruction.
      *

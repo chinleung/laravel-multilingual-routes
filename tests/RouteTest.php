@@ -334,17 +334,17 @@ class RouteTest extends TestCase
     /** @test **/
     public function a_route_with_defaults_parameters_can_be_registered(): void
     {
-      $params = ['param_1'=>'value_1', 'param_2'=>'value_2'];
-      Route::multilingual('test')->defaults($params)->name('test');
+        $params = ['param_1'=>'value_1', 'param_2'=>'value_2'];
+        Route::multilingual('test')->defaults($params)->name('test');
 
-      foreach (config('locales.supported') as $locale) {
-        $route = \Route::getRoutes()->getByName($locale . '.test');
+        foreach (config('locales.supported') as $locale) {
+            $route = \Route::getRoutes()->getByName($locale.'.test');
 
-        foreach ($params as $key => $value) {
-          $this->assertArrayHasKey($key, $route->defaults);
-          $this->assertEquals($value, $route->defaults[$key]);
+            foreach ($params as $key => $value) {
+                $this->assertArrayHasKey($key, $route->defaults);
+                $this->assertEquals($value, $route->defaults[$key]);
+            }
         }
-      }
     }
 
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
