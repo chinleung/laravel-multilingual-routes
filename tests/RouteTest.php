@@ -347,6 +347,38 @@ class RouteTest extends TestCase
         }
     }
 
+    /** @test **/
+    public function the_default_home_page_can_be_registered_with_prefix(): void
+    {
+        config([
+            'laravel-multilingual-routes.prefix_default' => true,
+            'laravel-multilingual-routes.prefix_default_home' => true,
+        ]);
+
+        Route::multilingual('/', function () {
+            //
+        })->name('home');
+
+        $this->assertEquals(url('en'), localized_route('home'));
+        $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
+    }
+
+    /** @test **/
+    public function the_default_home_page_can_be_registered_without_prefix(): void
+    {
+        config([
+            'laravel-multilingual-routes.prefix_default' => true,
+            'laravel-multilingual-routes.prefix_default_home' => false,
+        ]);
+
+        Route::multilingual('/', function () {
+            //
+        })->name('home');
+
+        $this->assertEquals(url(''), localized_route('home'));
+        $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();

@@ -26,6 +26,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Home Prefix Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The configuration option defines if the home route of the default locale
+    | should be prefixed.
+    |
+    */
+
+    'prefix_default_home' => env('MULTILINGUAL_ROUTES_PREFIX_DEFAULT_HOME', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Name Prefix Configuration
     |--------------------------------------------------------------------------
     |
