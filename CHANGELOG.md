@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v2.2.0 (2020-03-03)](https://github.com/chinleung/laravel-multilingual-routes/compare/v2.2.0...v2.3.0)
+
+- Fixed `current_route` helper not working properly for routes with parameters https://github.com/chinleung/laravel-multilingual-routes/pull/31
+- Added `defaults` method when registering route https://github.com/chinleung/laravel-multilingual-routes/pull/32
+- Added option `MULTILINGUAL_ROUTES_PREFIX_DEFAULT_HOME` to prefix home route https://github.com/chinleung/laravel-multilingual-routes/pull/33
+
 ## [v2.2.0 (2020-03-03)](https://github.com/chinleung/laravel-multilingual-routes/compare/v2.1.0...v2.2.0)
 
 - Added support for Laravel 7
