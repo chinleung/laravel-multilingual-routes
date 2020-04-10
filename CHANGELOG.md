@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+## [v1.5.2 (2020-04-10)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.1...v1.5.2)
+
+- Fixed `current_route` helper not working properly for routes with parameters [#31](https://github.com/chinleung/laravel-multilingual-routes/pull/31)
+
 ## [v1.5.1 (2020-01-28)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.0...v1.5.1)
 
 - Fixed homepage returning 404 [#28](https://github.com/chinleung/laravel-multilingual-routes/issues/28)

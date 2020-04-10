@@ -13,15 +13,17 @@ if (! function_exists('current_route')) {
     function current_route(string $locale = null): string
     {
         $route = Route::getCurrentRoute();
-        $query = request()->getQueryString();
 
         if (! $route->getName() || ! in_array($locale, locales())) {
-            return url($route->uri.($query ? "?{$query}" : null));
+            return url(request()->server('REQUEST_URI'));
         }
 
         return localized_route(
             Str::replaceFirst(locale().'.', null, $route->getName()),
-            $query,
+            array_merge(
+                (array) $route->paremeters,
+                (array) request()->getQueryString()
+            ),
             $locale
         );
     }
