@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
+
+## [v1.5.2 (2020-04-10)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.2...v1.5.3)
+
+- Fixed typo [#35](https://github.com/chinleung/laravel-multilingual-routes/pull/35)
+
 ## [v1.5.2 (2020-04-10)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.1...v1.5.2)
 
 - Fixed `current_route` helper not working properly for routes with parameters [#31](https://github.com/chinleung/laravel-multilingual-routes/pull/31)
