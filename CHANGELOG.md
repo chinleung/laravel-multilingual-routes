@@ -3,7 +3,7 @@
 All notable changes to `laravel-multilingual-routes` will be documented in this file.
 
 
-## [v1.5.2 (2020-04-10)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.2...v1.5.3)
+## [v1.5.3 (2020-06-08)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.2...v1.5.3)
 
 - Fixed typo [#35](https://github.com/chinleung/laravel-multilingual-routes/pull/35)
 
