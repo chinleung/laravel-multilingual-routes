@@ -21,7 +21,7 @@ if (! function_exists('current_route')) {
         return localized_route(
             Str::replaceFirst(locale().'.', null, $route->getName()),
             array_merge(
-                (array) $route->paremeters,
+                (array) $route->parameters,
                 (array) request()->getQueryString()
             ),
             $locale
