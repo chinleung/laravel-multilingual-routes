@@ -39,7 +39,13 @@ class MultilingualRegistrar
     public function register(string $key, $handle, array $locales, array $options): RouteCollection
     {
         foreach ($locales as $locale) {
-            $this->registerRoute($key, $handle, $locale, $options);
+            $route = $this->registerRoute($key, $handle, $locale, $options);
+
+            if (isset($options['defaults']) && is_array($options['defaults'])) {
+                foreach ($options['defaults'] as $paramKey => $paramValue) {
+                    $route->defaults($paramKey, $paramValue);
+                }
+            }
         }
 
         return tap($this->router->getRoutes())->refreshNameLookups();
@@ -66,9 +72,16 @@ class MultilingualRegistrar
             $route->setUri("{$prefix}/{$route->uri}");
         }
 
-        $route->name(
-            $this->generateNameForLocaleFromOptions($locale, $key, $options)
-        );
+        data_set($route, 'action.as', (
+            $this->generateNameForLocaleFromOptions(
+                $locale,
+                $key,
+                array_merge(
+                    ['as' => data_get($route, 'action.as')],
+                    $options
+                )
+            )
+        ));
 
         return $this->cleanUniqueRegistrationKey($route, $locale);
     }
@@ -129,15 +142,15 @@ class MultilingualRegistrar
      */
     protected function generateNameForLocaleFromOptions(string $locale, string $key, array $options): string
     {
-        if ($name = Arr::get($options, "names.$locale")) {
-            return "$locale.$name";
+        $name = Arr::get($options, "names.{$locale}", Arr::get($options, 'name', $key));
+
+        if ($prefix = Arr::get($options, 'as')) {
+            return config('laravel-multilingual-routes.name_prefix_before_locale')
+                ? "{$prefix}{$locale}.{$name}"
+                : "{$locale}.{$prefix}{$name}";
         }
 
-        return sprintf(
-            '%s.%s',
-            $locale,
-            Arr::get($options, 'name', $key)
-        );
+        return "{$locale}.{$name}";
     }
 
     /**
@@ -166,7 +179,8 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale): string
     {
         if ($key == '/') {
-            return $this->shouldNotPrefixLocale($locale) ? '/' : "/$locale";
+            return $this->shouldNotPrefixLocale($locale) ||
+                $this->shouldNotPrefixDefaultHome($locale) ? '/' : "/$locale";
         }
 
         return Lang::has("routes.{$key}")
@@ -209,5 +223,17 @@ class MultilingualRegistrar
     {
         return $locale == config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default');
+    }
+
+    /**
+     * Verify if we should not prefix the default Home Route.
+     *
+     * @param  string  $locale
+     * @return bool
+     */
+    protected function shouldNotPrefixDefaultHome(string $locale): bool
+    {
+        return $locale == config('laravel-multilingual-routes.default')
+            && ! config('laravel-multilingual-routes.prefix_default_home');
     }
 }
