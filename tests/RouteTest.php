@@ -305,6 +305,80 @@ class RouteTest extends TestCase
         );
     }
 
+    /** @test **/
+    public function a_route_prefix_can_be_registered_after_the_locale(): void
+    {
+        Route::name('prefix.')->group(function () {
+            Route::multilingual('test');
+        });
+
+        $this->assertNotNull(localized_route('prefix.test'));
+        $this->assertNotNull(localized_route('prefix.test', [], 'fr'));
+    }
+
+    /** @test **/
+    public function a_route_prefix_can_be_registered_before_the_locale(): void
+    {
+        config([
+            'laravel-multilingual-routes.name_prefix_before_locale' => true,
+        ]);
+
+        Route::name('prefix.')->group(function () {
+            Route::multilingual('test');
+        });
+
+        $this->assertNotNull(route('prefix.en.test'));
+        $this->assertNotNull(route('prefix.fr.test'));
+    }
+
+    /** @test **/
+    public function a_route_with_defaults_parameters_can_be_registered(): void
+    {
+        $params = ['param_1'=>'value_1', 'param_2'=>'value_2'];
+        Route::multilingual('test')->defaults($params)->name('test');
+
+        foreach (config('locales.supported') as $locale) {
+            $route = Route::getRoutes()->getByName($locale.'.test');
+
+            foreach ($params as $key => $value) {
+                $this->assertArrayHasKey($key, $route->defaults);
+                $this->assertEquals($value, $route->defaults[$key]);
+            }
+        }
+    }
+
+    /** @test **/
+    public function the_default_home_page_can_be_registered_with_prefix(): void
+    {
+        config([
+            'laravel-multilingual-routes.prefix_default' => true,
+            'laravel-multilingual-routes.prefix_default_home' => true,
+        ]);
+
+        Route::multilingual('/', function () {
+            //
+        })->name('home');
+
+        $this->assertEquals(url('en'), localized_route('home'));
+        $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
+    }
+
+    /** @test **/
+    public function the_default_home_page_can_be_registered_without_prefix(): void
+    {
+        config([
+            'laravel-multilingual-routes.prefix_default' => true,
+            'laravel-multilingual-routes.prefix_default_home' => false,
+        ]);
+
+        Route::multilingual('/', function () {
+            //
+        })->name('home');
+
+        $this->assertEquals(url(''), localized_route('home'));
+        $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
