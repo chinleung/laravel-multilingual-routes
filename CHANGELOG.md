@@ -4,7 +4,7 @@ All notable changes to `laravel-multilingual-routes` will be documented in this 
 
 ## [v1.6.0 (2020-06-09)](https://github.com/chinleung/laravel-multilingual-routes/compare/v1.5.3...v1.6.0)
 
-- Added option to manage name prefix of routes [#30](https://github.com/chinleung/laravel-multilingual-routes/issues/30)
+- Added option `MULTILINGUAL_ROUTES_NAME_PREFIX_BEFORE_LOCALE` to manage name prefix of routes [#30](https://github.com/chinleung/laravel-multilingual-routes/issues/30)
 - Added `defaults` method when registering route [#32](https://github.com/chinleung/laravel-multilingual-routes/pull/32)
 - Added option `MULTILINGUAL_ROUTES_PREFIX_DEFAULT_HOME` to prefix home route [#33](https://github.com/chinleung/laravel-multilingual-routes/pull/33)
 
