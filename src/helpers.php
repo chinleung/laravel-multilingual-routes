@@ -14,7 +14,10 @@ if (! function_exists('current_route')) {
      */
     function current_route(string $locale = null, string $fallback = null, bool $absolute = true): string
     {
-        $fallback ??= url(request()->server('REQUEST_URI'));
+        if (is_null($fallback)) {
+            $fallback = url(request()->server('REQUEST_URI'));
+        }
+
         $route = Route::getCurrentRoute();
         $name = Str::replaceFirst(
             locale().'.',
