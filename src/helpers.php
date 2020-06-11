@@ -7,8 +7,8 @@ if (! function_exists('current_route')) {
     /**
      * Retrieve the current route in another locale.
      *
-     * @param  string  $locale
-     * @param  string  $fallback
+     * @param  string|null  $locale
+     * @param  string|null  $fallback
      * @param  bool  $absolute
      * @return string
      */
@@ -39,7 +39,7 @@ if (! function_exists('localized_route')) {
      *
      * @param  string  $name
      * @param  mixed  $parameters
-     * @param  string  $locale
+     * @param  string|null  $locale
      * @param  bool  $absolute
      * @return string
      */
