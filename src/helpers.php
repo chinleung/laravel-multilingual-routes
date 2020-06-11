@@ -16,15 +16,13 @@ if (! function_exists('current_route')) {
     {
         $fallback ??= url(request()->server('REQUEST_URI'));
         $route = Route::getCurrentRoute();
-        $name = $route->getName();
+        $name = Str::replaceFirst(
+            locale().'.',
+            "{$locale}.",
+            $route->getName()
+        );
 
-        if (! $name || ! in_array($locale, locales())) {
-            return $fallback;
-        }
-
-        $name = Str::replaceFirst(locale().'.', "{$locale}.", $name);
-
-        if (! Route::has($name)) {
+        if (! $name || ! in_array($locale, locales()) || ! Route::has($name)) {
             return $fallback;
         }
 
