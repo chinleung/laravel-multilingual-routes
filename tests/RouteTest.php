@@ -306,6 +306,38 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
+    public function the_current_route_will_fallback_to_current_route_by_default(): void
+    {
+        Route::view('test', 'app');
+
+        app()->bind('request', function () {
+            return Request::create(url('test'), 'GET');
+        });
+
+        Route::dispatch(request());
+
+        $this->assertEquals(url('test'), current_route('fr'));
+    }
+
+    /** @test **/
+    public function the_current_route_can_have_a_custom_fallback(): void
+    {
+        Route::view('test', 'app');
+        Route::view('fallback', 'app');
+
+        app()->bind('request', function () {
+            return Request::create(url('test'), 'GET');
+        });
+
+        Route::dispatch(request());
+
+        $this->assertEquals(
+            url('fallback'),
+            current_route('fr', url('fallback'))
+        );
+    }
+
+    /** @test **/
     public function a_route_prefix_can_be_registered_after_the_locale(): void
     {
         Route::name('prefix.')->group(function () {
