@@ -88,6 +88,14 @@ localized_route('test', [], 'fr'); // Returns https://app.test/fr/teste
 localized_route('test', [], 'en'); // Returns https://app.test/test
 ```
 
+To retrieve the current route in another locale, you can use the `current_route(string $locale = null)` helper:
+
+```php
+current_route(); // Returns the current request's route
+current_route('fr'); // Returns the current request's route in French version
+current_route('fr', route('fallback')); // Returns the fallback route if the current route is not registered in French
+```
+
 ### Renaming the routes
 
 ``` php
