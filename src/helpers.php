@@ -8,21 +8,30 @@ if (! function_exists('current_route')) {
      * Retrieve the current route in another locale.
      *
      * @param  string  $locale
+     * @param  string  $fallback
+     * @param  bool  $absolute
      * @return string
      */
-    function current_route(string $locale = null): string
+    function current_route(string $locale = null, string $fallback = null, bool $absolute = true): string
     {
+        $fallback ??= url(request()->server('REQUEST_URI'));
         $route = Route::getCurrentRoute();
+        $name = $route->getName();
 
-        if (! $route->getName() || ! in_array($locale, locales())) {
-            return url(request()->server('REQUEST_URI'));
+        if (! $name || ! in_array($locale, locales())) {
+            return $fallback;
         }
 
-        return localized_route(
-            Str::replaceFirst(locale().'.', null, $route->getName()),
-            array_merge((array) $route->parameters, (array) request()->getQueryString()),
-            $locale
-        );
+        $name = Str::replaceFirst(locale().'.', "{$locale}.", $name);
+
+        if (! Route::has($name)) {
+            return $fallback;
+        }
+
+        return route($name, array_merge(
+            (array) $route->parameters,
+            (array) request()->getQueryString()
+        ), $absolute);
     }
 }
 
