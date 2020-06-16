@@ -189,15 +189,11 @@ To update from 1.x to 2.x, you simply have to rename the namespace occurrences i
 composer test
 ```
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email hello@chinleung.com instead of using the issue tracker.
 
