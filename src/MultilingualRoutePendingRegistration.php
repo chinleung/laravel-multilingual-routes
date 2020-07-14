@@ -83,6 +83,19 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
+     * Set the default view data of the route.
+     *
+     * @param  array  $data
+     * @return self
+     */
+    public function data(array $data): self
+    {
+        $this->options['data'] = $data;
+
+        return $this;
+    }
+
+    /**
      * Add one or many locale to the exception.
      *
      * @param  string|array  $locales
@@ -175,11 +188,16 @@ class MultilingualRoutePendingRegistration
      * Set the view to render.
      *
      * @param  string  $view
+     * @param  array  $data
      * @return self
      */
-    public function view(string $view): self
+    public function view(string $view, array $data = []): self
     {
         $this->options['view'] = $view;
+
+        if (filled($data)) {
+            $this->options['data'] = $data;
+        }
 
         return $this;
     }
