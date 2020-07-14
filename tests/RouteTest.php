@@ -7,6 +7,7 @@ use ChinLeung\LaravelMultilingualRoutes\DetectRequestLocale;
 use ChinLeung\LaravelMultilingualRoutes\LaravelMultilingualRoutesServiceProvider;
 use ChinLeung\LaravelMultilingualRoutes\MultilingualRoutePendingRegistration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
@@ -234,6 +235,40 @@ class RouteTest extends TestCase
 
         $this->assertEquals(config('app.url'), localized_route('home'));
         $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
+    }
+
+    /** @test **/
+    public function a_view_route_can_be_registered_with_custom_data(): void
+    {
+        Route::multilingual('/')->name('home')->view('app', [
+            'name' => 'Taylor',
+        ]);
+
+        foreach (locales() as $locale) {
+            $route = Route::getRoutes()->getByName("{$locale}.home");
+
+            $this->assertEquals(
+                'Taylor',
+                Arr::get($route->defaults, 'data.name')
+            );
+        }
+    }
+
+    /** @test **/
+    public function a_view_route_can_be_registered_with_custom_data_via_method(): void
+    {
+        Route::multilingual('/')->name('home')->view('app')->data([
+            'name' => 'Taylor',
+        ]);
+
+        foreach (locales() as $locale) {
+            $route = Route::getRoutes()->getByName("{$locale}.home");
+
+            $this->assertEquals(
+                'Taylor',
+                Arr::get($route->defaults, 'data.name')
+            );
+        }
     }
 
     /** @test **/

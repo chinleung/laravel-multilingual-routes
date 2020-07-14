@@ -179,6 +179,13 @@ Route::multilingual('test')->view('welcome');
 | GET\|HEAD | test | en.test | Illuminate\Routing\ViewController |
 | GET\|HEAD | fr/teste   | fr.test | Illuminate\Routing\ViewController |
 
+### Passing data to the view
+
+```php
+Route::multilingual('test')->data(['name' => 'Taylor']);
+Route::multilingual('test')->view('welcome', ['name' => 'Taylor']);
+```
+
 ### Testing
 
 ``` bash
