@@ -179,8 +179,7 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale): string
     {
         if ($key == '/') {
-            return $this->shouldNotPrefixLocale($locale) ||
-            $this->shouldNotPrefixDefaultHome($locale) ? '/' : "/$locale";
+            return $this->shouldNotPrefixHome($locale) ? '/' : "/{$locale}";
         }
 
         return Lang::has("routes.{$key}")
@@ -226,7 +225,19 @@ class MultilingualRegistrar
     }
 
     /**
-     * Verify if we should not prefix the default Home Route.
+     * Verify if we should not prefix the home page.
+     *
+     * @param  string  $locale
+     * @return bool
+     */
+    protected function shouldNotPrefixHome(string $locale): bool
+    {
+        return $this->shouldNotPrefixLocale($locale)
+            || $this->shouldNotPrefixDefaultHome($locale);
+    }
+
+    /**
+     * Verify if we should not prefix the home page.
      *
      * @param  string  $locale
      * @return bool
