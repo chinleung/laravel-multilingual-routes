@@ -182,7 +182,7 @@ class MultilingualRegistrar
             return $this->shouldNotPrefixHome($locale) ? '/' : "/{$locale}";
         }
 
-        return Lang::has("routes.{$key}")
+        return Lang::has("routes.{$key}", $locale)
             ? trans("routes.{$key}", [], $locale)
             : $key;
     }
