@@ -51,6 +51,8 @@ You can accomplish the same result with:
 Route::multilingual('/', 'ShowHomeController')->name('home');
 ```
 
+A [demo repository](https://github.com/chinleung/laravel-multilingual-routes-demo) has been setup to showcase the basic usage of the package.
+
 ## Usage
 
 ### Quick Usage
