@@ -72,6 +72,10 @@ class MultilingualRegistrar
             $route->setUri("{$prefix}/{$route->uri}");
         }
 
+        if ($middleware = Arr::get($options, 'middleware')) {
+            $route->middleware($middleware);
+        }
+
         data_set($route, 'action.as', (
             $this->generateNameForLocaleFromOptions(
                 $locale,
