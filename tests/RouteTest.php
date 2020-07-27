@@ -446,6 +446,16 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
+    /** @test **/
+    public function a_route_can_be_registered_with_a_middleware(): void
+    {
+        Route::multilingual('/')->middleware('web');
+
+        foreach (Route::getRoutes() as $route) {
+            $this->assertContains('web', data_get($route, 'action.middleware'));
+        }
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
