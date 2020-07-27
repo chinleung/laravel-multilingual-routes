@@ -138,6 +138,19 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
+     * Set the middleware of the route.
+     *
+     * @param  string|array  $middleware
+     * @return self
+     */
+    public function middleware($middleware): self
+    {
+        $this->options['middleware'] = $middleware;
+
+        return $this;
+    }
+
+    /**
      * Set the name of each locale for the routes.
      *
      * @param  array  $names
