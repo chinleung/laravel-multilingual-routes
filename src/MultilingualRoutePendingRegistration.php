@@ -138,7 +138,7 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
-     * Set the middleware of the route.
+     * Set the middleware of the routes.
      *
      * @param  string|array  $middleware
      * @return self
