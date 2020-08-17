@@ -138,7 +138,7 @@ class MultilingualRoutePendingRegistration
     }
 
     /**
-     * Set the middleware of the route.
+     * Set the middleware of the routes.
      *
      * @param  string|array  $middleware
      * @return self
@@ -184,15 +184,18 @@ class MultilingualRoutePendingRegistration
      *
      * @param  array|string  $name
      * @param  string|null  $expression
+     * @param  string|null  $locale
      * @return $this
      */
-    public function where($name, $expression = null): self
+    public function where($name, $expression = null, string $locale = null): self
     {
-        if (! is_array(Arr::get($this->options, 'constraints'))) {
-            Arr::set($this->options, 'constraints', []);
+        $key = rtrim("constraints-{$locale}", '-');
+
+        if (! is_array(Arr::get($this->options, $key))) {
+            Arr::set($this->options, $key, []);
         }
 
-        Arr::set($this->options, "constraints.$name", $expression);
+        Arr::set($this->options, "{$key}.{$name}", $expression);
 
         return $this;
     }
