@@ -64,9 +64,7 @@ class MultilingualRegistrar
     {
         $route = $this->generateRoute($key, $handle, $locale, $options);
 
-        foreach (Arr::get($options, 'constraints', []) as $name => $expression) {
-            $route->where($name, $expression);
-        }
+        $this->applyConstraints($route, $locale, $options);
 
         if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
             $route->setUri("{$prefix}/{$route->uri}");
@@ -110,7 +108,7 @@ class MultilingualRegistrar
             $handle ?: '\Illuminate\Routing\ViewController'
         );
 
-        if (is_null($handle)) {
+        if ($handle === null) {
             return $route
                 ->defaults('view', Arr::get($options, 'view', $key))
                 ->defaults('data', Arr::get($options, 'data', []));
@@ -250,5 +248,25 @@ class MultilingualRegistrar
     {
         return $locale == config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default_home');
+    }
+
+    /**
+     * Apply the constraints of a route.
+     *
+     * @param  \Illuminate\Routing\Route  $route
+     * @param  string  $locale
+     * @param  array  $options
+     * @return void
+     */
+    protected function applyConstraints(Route $route, string $locale, $options): void
+    {
+        $constraints = array_merge(
+            Arr::get($options, 'constraints', []),
+            Arr::get($options, "constraints-{$locale}", [])
+        );
+
+        foreach ($constraints as $name => $expression) {
+            $route->where($name, $expression);
+        }
     }
 }
