@@ -293,6 +293,31 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
+    public function a_route_param_can_have_constraints_by_locale(): void
+    {
+        $this->registerTranslations([
+            'en' => [
+                'routes.search' => 'search/{filter}/{filter2}',
+            ],
+            'fr' => [
+                'routes.search' => 'recherche/{filter}/{filter2}',
+            ],
+        ]);
+
+        Route::multilingual('search')->where('filter', '.*')
+            ->where('filter2', 'fr', 'fr')
+            ->where('filter2', 'en', 'en')
+            ->name('search.results');
+
+        foreach (locales() as $locale) {
+            $route = Route::getRoutes()->getByName("{$locale}.search.results");
+
+            $this->assertEquals('.*', Arr::get($route->wheres, 'filter'));
+            $this->assertEquals($locale, Arr::get($route->wheres, 'filter2'));
+        }
+    }
+
+    /** @test **/
     public function a_route_without_translation_will_be_registered_with_its_key(): void
     {
         Route::multilingual('test');
