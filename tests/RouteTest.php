@@ -187,7 +187,7 @@ class RouteTest extends TestCase
     /** @test **/
     public function the_home_page_can_be_registered(): void
     {
-        Route::multilingual('/', function () {
+        Route::multilingual('/', static function () {
             //
         })->name('home');
 
@@ -220,7 +220,7 @@ class RouteTest extends TestCase
     {
         $this->registerTestTranslations();
 
-        Route::prefix('prefix')->group(function () {
+        Route::prefix('prefix')->group(static function () {
             Route::multilingual('test');
         });
 
@@ -285,8 +285,11 @@ class RouteTest extends TestCase
 
         Route::multilingual('search')->where('filter', '.*')->name('search.results');
 
-        $this->assertEquals(url('search/Foo'), localized_route('search.results', ['filter' => 'Foo']));
-        $this->assertEquals(url('fr/recherche/Bar'), localized_route('search.results', ['filter' => 'Bar'], 'fr'));
+        foreach (locales() as $locale) {
+            $route = Route::getRoutes()->getByName("{$locale}.search.results");
+
+            $this->assertEquals('.*', Arr::get($route->wheres, 'filter'));
+        }
     }
 
     /** @test **/
@@ -303,7 +306,7 @@ class RouteTest extends TestCase
     {
         $this->registerTestTranslations();
 
-        Route::multilingual('/test', function () {
+        Route::multilingual('/test', static function () {
             //
         });
 
@@ -326,7 +329,7 @@ class RouteTest extends TestCase
     {
         $this->registerTestRoute();
 
-        app()->bind('request', function () {
+        app()->bind('request', static function () {
             return Request::create(localized_route('test'), 'GET', [
                 'foo' => 'bar',
             ]);
@@ -345,7 +348,7 @@ class RouteTest extends TestCase
     {
         Route::view('test', 'app');
 
-        app()->bind('request', function () {
+        app()->bind('request', static function () {
             return Request::create(url('test'), 'GET');
         });
 
@@ -360,7 +363,7 @@ class RouteTest extends TestCase
         Route::view('test', 'app');
         Route::view('fallback', 'app');
 
-        app()->bind('request', function () {
+        app()->bind('request', static function () {
             return Request::create(url('test'), 'GET');
         });
 
@@ -375,7 +378,7 @@ class RouteTest extends TestCase
     /** @test **/
     public function a_route_prefix_can_be_registered_after_the_locale(): void
     {
-        Route::name('prefix.')->group(function () {
+        Route::name('prefix.')->group(static function () {
             Route::multilingual('test');
         });
 
@@ -390,7 +393,7 @@ class RouteTest extends TestCase
             'laravel-multilingual-routes.name_prefix_before_locale' => true,
         ]);
 
-        Route::name('prefix.')->group(function () {
+        Route::name('prefix.')->group(static function () {
             Route::multilingual('test');
         });
 
@@ -401,7 +404,7 @@ class RouteTest extends TestCase
     /** @test **/
     public function a_route_with_defaults_parameters_can_be_registered(): void
     {
-        $params = ['param_1'=>'value_1', 'param_2'=>'value_2'];
+        $params = ['param_1' => 'value_1', 'param_2' => 'value_2'];
         Route::multilingual('test')->defaults($params)->name('test');
 
         foreach (config('locales.supported') as $locale) {
@@ -422,7 +425,7 @@ class RouteTest extends TestCase
             'laravel-multilingual-routes.prefix_default_home' => true,
         ]);
 
-        Route::multilingual('/', function () {
+        Route::multilingual('/', static function () {
             //
         })->name('home');
 
@@ -438,7 +441,7 @@ class RouteTest extends TestCase
             'laravel-multilingual-routes.prefix_default_home' => false,
         ]);
 
-        Route::multilingual('/', function () {
+        Route::multilingual('/', static function () {
             //
         })->name('home');
 
@@ -462,7 +465,7 @@ class RouteTest extends TestCase
 
         return Route::multilingual(
             'test',
-            function () {
+            static function () {
                 //
             }
         );
