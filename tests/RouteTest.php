@@ -285,8 +285,11 @@ class RouteTest extends TestCase
 
         Route::multilingual('search')->where('filter', '.*')->name('search.results');
 
-        $this->assertEquals(url('search/Foo'), localized_route('search.results', ['filter' => 'Foo']));
-        $this->assertEquals(url('fr/recherche/Bar'), localized_route('search.results', ['filter' => 'Bar'], 'fr'));
+        foreach (locales() as $locale) {
+            $route = Route::getRoutes()->getByName("{$locale}.search.results");
+
+            $this->assertEquals('.*', Arr::get($route->wheres, 'filter'));
+        }
     }
 
     /** @test **/
