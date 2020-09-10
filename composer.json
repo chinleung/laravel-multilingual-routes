@@ -21,7 +21,7 @@
     "require": {
         "php": "^7.2",
         "chinleung/laravel-locales": "^1.2",
-        "illuminate/support": "~5.8.0|^6.0|^7.0"
+        "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0"
     },
     "require-dev": {
         "orchestra/testbench": "3.8.*",
