@@ -105,7 +105,7 @@ class MultilingualRegistrar
                 $this->generateUriFromKey($key, $locale),
                 $locale
             ),
-            $handle ?: '\Illuminate\Routing\ViewController'
+            $handle ?: '\ChinLeung\MultilingualRoutes\Controllers\ViewController'
         );
 
         if ($handle === null) {
