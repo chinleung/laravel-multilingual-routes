@@ -205,14 +205,22 @@ class MultilingualRoutePendingRegistration
      *
      * @param  string  $view
      * @param  array  $data
+     * @param  int  $status
+     * @param  array  $headers
      * @return self
      */
-    public function view(string $view, array $data = []): self
+    public function view(string $view, array $data = [], int $status = 200, array $headers = []): self
     {
         $this->options['view'] = $view;
 
         if (filled($data)) {
             $this->options['data'] = $data;
+        }
+
+        $this->options['status'] = $status;
+
+        if (filled($headers)) {
+            $this->options['headers'] = $headers;
         }
 
         return $this;
