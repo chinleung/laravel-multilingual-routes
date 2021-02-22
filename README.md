@@ -1,7 +1,7 @@
 # Laravel Multilingual Routes
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/chinleung/laravel-multilingual-routes.svg?style=flat-square)](https://packagist.org/packages/chinleung/laravel-multilingual-routes)
-[![Build Status](https://img.shields.io/travis/chinleung/laravel-multilingual-routes/master.svg?style=flat-square)](https://travis-ci.org/chinleung/laravel-multilingual-routes)
+[![Build Status](https://github.com/chinleung/laravel-multilingual-routes/workflows/tests/badge.svg?branch=v2)](https://github.com/chinleung/laravel-multilingual-routes/actions?query=workflow%3Atests)
 [![Quality Score](https://img.shields.io/scrutinizer/g/chinleung/laravel-multilingual-routes.svg?style=flat-square)](https://scrutinizer-ci.com/g/chinleung/laravel-multilingual-routes)
 [![Total Downloads](https://img.shields.io/packagist/dt/chinleung/laravel-multilingual-routes.svg?style=flat-square)](https://packagist.org/packages/chinleung/laravel-multilingual-routes)
 
