@@ -412,7 +412,7 @@ class RouteTest extends TestCase
 
         try {
             Route::dispatch(request());
-        } catch(NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $e) {
             $this->assertEquals(
                 url('fallback'),
                 current_route('fr', url('fallback'))
