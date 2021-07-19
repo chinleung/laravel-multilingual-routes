@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteTest extends TestCase
 {
@@ -398,6 +399,25 @@ class RouteTest extends TestCase
             url('fallback'),
             current_route('fr', url('fallback'))
         );
+    }
+
+    /** @test **/
+    public function the_current_route_for_a_missing_page_will_return_the_custom_fallback(): void
+    {
+        Route::view('fallback', 'app');
+
+        app()->bind('request', static function () {
+            return Request::create(url('missing-route'), 'GET');
+        });
+
+        try {
+            Route::dispatch(request());
+        } catch (NotFoundHttpException $e) {
+            $this->assertEquals(
+                url('fallback'),
+                current_route('fr', url('fallback'))
+            );
+        }
     }
 
     /** @test **/
