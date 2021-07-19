@@ -19,6 +19,11 @@ if (! function_exists('current_route')) {
         }
 
         $route = Route::getCurrentRoute();
+
+        if (! $route) {
+            return $fallback;
+        }
+
         $name = Str::replaceFirst(
             locale().'.',
             "{$locale}.",
