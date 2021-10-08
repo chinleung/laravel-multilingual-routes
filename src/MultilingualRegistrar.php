@@ -213,7 +213,7 @@ class MultilingualRegistrar
      */
     protected function cleanUniqueRegistrationKey(Route $route, string $locale): Route
     {
-        return $route->setUri(str_replace("__{$locale}__", '', $route->uri));
+        return $route->setUri(rtrim(str_replace("__{$locale}__", '', $route->uri), '/'));
     }
 
     /**
