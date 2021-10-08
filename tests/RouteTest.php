@@ -46,7 +46,7 @@ class RouteTest extends TestCase
                 route($locale.'.test'),
                 localized_route('test', [], $locale)
             );
-            $this->assertNotNull(Route::getRoutes()->match(app(Request::class)->create(route($locale.'.test',[],false))));
+            $this->assertNotNull(Route::getRoutes()->match(app(Request::class)->create(route($locale.'.test', [], false))));
         }
     }
 
@@ -531,7 +531,7 @@ class RouteTest extends TestCase
 
     protected function registerGroupedTestRoute(): void
     {
-        Route::prefix('test')->group(function(){
+        Route::prefix('test')->group(function () {
             $this->registerTestRoute();
         });
     }
