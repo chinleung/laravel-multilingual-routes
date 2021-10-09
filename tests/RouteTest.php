@@ -38,6 +38,19 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
+    public function a_multilingual_group_routes_with_prefix_can_be_registered_and_accessed(): void
+    {
+        $this->registerGroupedTestRoute();
+        foreach (locales() as $locale) {
+            $this->assertEquals(
+                route($locale.'.test'),
+                localized_route('test', [], $locale)
+            );
+            $this->assertNotNull(Route::getRoutes()->match(app(Request::class)->create(route($locale.'.test', [], false))));
+        }
+    }
+
+    /** @test **/
     public function a_route_can_have_different_names_based_on_locales(): void
     {
         $this
@@ -516,7 +529,14 @@ class RouteTest extends TestCase
         );
     }
 
-    protected function registerTestTranslations()
+    protected function registerGroupedTestRoute(): void
+    {
+        Route::prefix('test')->group(function () {
+            $this->registerTestRoute();
+        });
+    }
+
+    protected function registerTestTranslations(): void
     {
         $this->registerTranslations([
             'en' => [
