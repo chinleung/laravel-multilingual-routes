@@ -16,7 +16,7 @@ class RequestMacros
     public function localizedRouteIs(): Closure
     {
         return function (...$patterns) {
-            return $this->routeIs(array_map(static fn($pattern) => locale().".{$pattern}", $patterns));
+            return $this->routeIs(array_map(static fn ($pattern) => locale().".{$pattern}", $patterns));
         };
     }
 }

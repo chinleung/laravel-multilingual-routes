@@ -6,10 +6,6 @@ use ChinLeung\MultilingualRoutes\MultilingualRegistrar;
 use ChinLeung\MultilingualRoutes\MultilingualRoutePendingRegistration;
 use Closure;
 
-/**
- * Class RouterMacros
- *
- */
 class RouterMacros
 {
     /**

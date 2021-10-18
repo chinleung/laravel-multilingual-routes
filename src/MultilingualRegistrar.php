@@ -54,16 +54,16 @@ class MultilingualRegistrar
     /**
      * Register the redirect routes.
      *
-     * @param string $key
-     * @param string $destination
-     * @param int $status
-     * @param array $locales
-     * @param array $options
+     * @param  string $key
+     * @param  string $destination
+     * @param  int $status
+     * @param  array $locales
+     * @param  array $options
      * @return \Illuminate\Routing\RouteCollection
      */
     public function redirect(string $key, string $destination, int $status, array $locales, array $options): RouteCollection
     {
-        foreach ($locales as $locale){
+        foreach ($locales as $locale) {
             $route = $this->registerRedirectRoute($key, $destination, $status, $locale, $options);
 
 
@@ -80,11 +80,11 @@ class MultilingualRegistrar
     /**
      * Register a single redirect route.
      *
-     * @param string $key
-     * @param string $destination
-     * @param int $status
-     * @param string $locale
-     * @param array $options
+     * @param  string $key
+     * @param  string $destination
+     * @param  int $status
+     * @param  string $locale
+     * @param  array $options
      * @return \Illuminate\Routing\Route
      */
     protected function registerRedirectRoute(string $key, string $destination, int $status, string $locale, array $options): Route
@@ -97,11 +97,11 @@ class MultilingualRegistrar
     /**
      * Generate a redirect route.
      *
-     * @param string $key
-     * @param string $destination
-     * @param int $status
-     * @param string $locale
-     * @param array $options
+     * @param  string $key
+     * @param  string $destination
+     * @param  int $status
+     * @param  string $locale
+     * @param  array $options
      * @return \Illuminate\Routing\Route
      */
     protected function generateRedirectRoute(string $key, string $destination, int $status, string $locale, array $options): Route
@@ -172,10 +172,10 @@ class MultilingualRegistrar
     /**
      * Finalize route registration.
      *
-     * @param \Illuminate\Routing\Route $route
-     * @param string $key
-     * @param string $locale
-     * @param array $options
+     * @param  \Illuminate\Routing\Route $route
+     * @param  string $key
+     * @param  string $locale
+     * @param  array $options
      * @return \Illuminate\Routing\Route
      */
     protected function finalizeRoute(Route $route, string $key, string $locale, array $options): Route
@@ -302,10 +302,10 @@ class MultilingualRegistrar
     }
 
     /**
-     * Clean route uri from locale
+     * Clean route uri from locale.
      *
-     * @param \Illuminate\Routing\Route $route
-     * @param string $locale
+     * @param  \Illuminate\Routing\Route $route
+     * @param  string $locale
      * @return string
      */
     protected function cleanRoute(Route $route, string $locale): string
@@ -314,10 +314,10 @@ class MultilingualRegistrar
     }
 
     /**
-     * Clean uri from locale
+     * Clean uri from locale.
      *
-     * @param string $uri
-     * @param string $locale
+     * @param  string $uri
+     * @param  string $locale
      * @return string
      */
     protected function cleanUri(string $uri, string $locale): string
