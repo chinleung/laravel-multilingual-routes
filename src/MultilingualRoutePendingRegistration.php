@@ -215,7 +215,7 @@ class MultilingualRoutePendingRegistration
     {
         $key = rtrim("constraints-$locale", '-');
 
-        if (!is_array(Arr::get($this->options, $key))) {
+        if (! is_array(Arr::get($this->options, $key))) {
             Arr::set($this->options, $key, []);
         }
 
