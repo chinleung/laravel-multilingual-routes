@@ -66,7 +66,6 @@ class MultilingualRegistrar
         foreach ($locales as $locale) {
             $route = $this->registerRedirectRoute($key, $destination, $status, $locale, $options);
 
-
             if (isset($options['defaults']) && is_array($options['defaults'])) {
                 foreach ($options['defaults'] as $paramKey => $paramValue) {
                     $route->defaults($paramKey, $paramValue);
@@ -119,6 +118,7 @@ class MultilingualRegistrar
             $locale
         ), $locale));
         $route->defaults('status', $status);
+
         return $route;
     }
 

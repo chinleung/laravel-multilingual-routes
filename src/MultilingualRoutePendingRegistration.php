@@ -103,6 +103,7 @@ class MultilingualRoutePendingRegistration
                 $this->options
             );
         }
+
         return $this->registrar->redirect(
             $this->key,
             $this->destination,
