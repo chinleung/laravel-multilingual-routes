@@ -19,43 +19,64 @@ class MultilingualRoutePendingRegistration
      *
      * @var string
      */
-    protected $key;
+    protected string $key;
 
     /**
      * The list of locales for the route.
      *
      * @var array
      */
-    protected $locales = [];
+    protected array $locales = [];
 
     /**
      * The options of the routes.
      *
      * @var array
      */
-    protected $options = [];
+    protected array $options = [];
 
     /**
      * The resource's registration status.
      *
      * @var bool
      */
-    protected $registered = false;
+    protected bool $registered = false;
 
     /**
      * The resource registrar.
      *
      * @var \ChinLeung\MultilingualRoutes\MultilingualRegistrar
      */
-    protected $registrar;
+    protected MultilingualRegistrar $registrar;
+
+    /**
+     * If the registered route is a redirect.
+     *
+     * @var bool
+     */
+    protected bool $isRedirect = false;
+
+    /**
+     * Redirect destination
+     *
+     * @var string|null
+     */
+    protected ?string $destination = null;
+
+    /**
+     * Redirect status
+     *
+     * @var int|null
+     */
+    protected ?int $status = null;
 
     /**
      * Constructor of the class.
      *
-     * @param  \ChinLeung\MultilingualRoutes\MultilingualRegistrar  $registrar
-     * @param  string  $key
-     * @param  mixed  $handle
-     * @param  array  $locales
+     * @param \ChinLeung\MultilingualRoutes\MultilingualRegistrar $registrar
+     * @param string $key
+     * @param mixed $handle
+     * @param array $locales
      */
     public function __construct(MultilingualRegistrar $registrar, string $key, $handle, array $locales = [])
     {
@@ -74,9 +95,18 @@ class MultilingualRoutePendingRegistration
     {
         $this->registered = true;
 
-        return $this->registrar->register(
+        if (!$this->isRedirect) {
+            return $this->registrar->register(
+                $this->key,
+                $this->handle,
+                $this->options['locales'] ?? $this->locales,
+                $this->options
+            );
+        }
+        return $this->registrar->redirect(
             $this->key,
-            $this->handle,
+            $this->destination,
+            $this->status,
             $this->options['locales'] ?? $this->locales,
             $this->options
         );
@@ -85,7 +115,7 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the default view data of the route.
      *
-     * @param  array  $data
+     * @param array $data
      * @return self
      */
     public function data(array $data): self
@@ -98,15 +128,12 @@ class MultilingualRoutePendingRegistration
     /**
      * Add one or many locale to the exception.
      *
-     * @param  string|array  $locales
+     * @param string|array $locales
      * @return self
      */
     public function except($locales): self
     {
-        $this->options['locales'] = array_diff(
-            $this->locales,
-            Arr::wrap($locales)
-        );
+        $this->options['locales'] = array_diff($this->locales, Arr::wrap($locales));
 
         return $this;
     }
@@ -114,7 +141,7 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the name of the routes.
      *
-     * @param  string  $name
+     * @param string $name
      * @return self
      */
     public function name(string $name): self
@@ -127,7 +154,7 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the method of the routes.
      *
-     * @param  string  $method
+     * @param string $method
      * @return self
      */
     public function method(string $method): self
@@ -140,7 +167,7 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the middleware of the routes.
      *
-     * @param  string|array  $middleware
+     * @param string|array $middleware
      * @return self
      */
     public function middleware($middleware): self
@@ -153,7 +180,7 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the name of each locale for the routes.
      *
-     * @param  array  $names
+     * @param array $names
      * @return self
      */
     public function names(array $names): self
@@ -166,15 +193,12 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the route for a list of locales only.
      *
-     * @param  string|array  $locales
+     * @param string|array $locales
      * @return self
      */
     public function only($locales): self
     {
-        $this->options['locales'] = array_intersect(
-            $this->locales,
-            Arr::wrap($locales)
-        );
+        $this->options['locales'] = array_intersect($this->locales, Arr::wrap($locales));
 
         return $this;
     }
@@ -182,20 +206,20 @@ class MultilingualRoutePendingRegistration
     /**
      * Set a regular expression requirement on the route.
      *
-     * @param  array|string  $name
-     * @param  string|null  $expression
-     * @param  string|null  $locale
+     * @param array|string $name
+     * @param string|null  $expression
+     * @param string|null  $locale
      * @return $this
      */
-    public function where($name, $expression = null, string $locale = null): self
+    public function where($name, ?string $expression = null, string $locale = null): self
     {
-        $key = rtrim("constraints-{$locale}", '-');
+        $key = rtrim("constraints-$locale", '-');
 
-        if (! is_array(Arr::get($this->options, $key))) {
+        if (!is_array(Arr::get($this->options, $key))) {
             Arr::set($this->options, $key, []);
         }
 
-        Arr::set($this->options, "{$key}.{$name}", $expression);
+        Arr::set($this->options, "$key.$name", $expression);
 
         return $this;
     }
@@ -203,10 +227,10 @@ class MultilingualRoutePendingRegistration
     /**
      * Set the view to render.
      *
-     * @param  string  $view
-     * @param  array  $data
-     * @param  int  $status
-     * @param  array  $headers
+     * @param string $view
+     * @param array  $data
+     * @param int    $status
+     * @param array  $headers
      * @return self
      */
     public function view(string $view, array $data = [], int $status = 200, array $headers = []): self
@@ -229,12 +253,28 @@ class MultilingualRoutePendingRegistration
     /**
      * Set default parameters values of the routes.
      *
-     * @param  array  $defaults
+     * @param array $defaults
      * @return self
      */
     public function defaults(array $defaults): self
     {
         $this->options['defaults'] = $defaults;
+
+        return $this;
+    }
+
+    /**
+     * Create a redirect from one URI to another.
+     *
+     * @param mixed $destination
+     * @param int $status
+     * @return $this
+     */
+    public function redirect($destination, int $status = 302): self
+    {
+        $this->isRedirect = true;
+        $this->destination = $destination;
+        $this->status = $status;
 
         return $this;
     }
@@ -246,7 +286,7 @@ class MultilingualRoutePendingRegistration
      */
     public function __destruct()
     {
-        if (! $this->registered) {
+        if (!$this->registered) {
             $this->register();
         }
     }

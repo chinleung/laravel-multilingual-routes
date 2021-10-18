@@ -38,6 +38,19 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
+    public function a_multilingual_redirect_route_can_be_registered(): void
+    {
+        $this->registerTestRedirectToRoute();
+        $this->registerTestRedirectRoute();
+
+        foreach (locales() as $locale) {
+            $response = $this->get(route($locale.'.from'));
+            $response->assertStatus(302);
+            $response->assertRedirect(localized_route('to'));
+        }
+    }
+
+    /** @test **/
     public function a_multilingual_group_routes_with_prefix_can_be_registered_and_accessed(): void
     {
         $this->registerGroupedTestRoute();
@@ -527,6 +540,25 @@ class RouteTest extends TestCase
                 //
             }
         );
+    }
+
+    protected function registerTestRedirectToRoute(): MultilingualRoutePendingRegistration
+    {
+        $this->registerTestTranslations();
+
+        return Route::multilingual(
+            'to',
+            static function () {
+                //
+            }
+        );
+    }
+
+    protected function registerTestRedirectRoute(): MultilingualRoutePendingRegistration
+    {
+        $this->registerTestTranslations();
+
+        return Route::multilingual('from')->redirect('to');
     }
 
     protected function registerGroupedTestRoute(): void

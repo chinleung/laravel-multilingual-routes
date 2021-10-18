@@ -15,7 +15,7 @@ class MultilingualRegistrar
      *
      * @var \Illuminate\Routing\Router
      */
-    protected $router;
+    protected Router $router;
 
     /**
      * Constructor of the class.
@@ -52,6 +52,77 @@ class MultilingualRegistrar
     }
 
     /**
+     * Register the redirect routes.
+     *
+     * @param string $key
+     * @param string $destination
+     * @param int $status
+     * @param array $locales
+     * @param array $options
+     * @return \Illuminate\Routing\RouteCollection
+     */
+    public function redirect(string $key, string $destination, int $status, array $locales, array $options): RouteCollection
+    {
+        foreach ($locales as $locale){
+            $route = $this->registerRedirectRoute($key, $destination, $status, $locale, $options);
+
+
+            if (isset($options['defaults']) && is_array($options['defaults'])) {
+                foreach ($options['defaults'] as $paramKey => $paramValue) {
+                    $route->defaults($paramKey, $paramValue);
+                }
+            }
+        }
+
+        return tap($this->router->getRoutes())->refreshNameLookups();
+    }
+
+    /**
+     * Register a single redirect route.
+     *
+     * @param string $key
+     * @param string $destination
+     * @param int $status
+     * @param string $locale
+     * @param array $options
+     * @return \Illuminate\Routing\Route
+     */
+    protected function registerRedirectRoute(string $key, string $destination, int $status, string $locale, array $options): Route
+    {
+        $route = $this->generateRedirectRoute($key, $destination, $status, $locale, $options);
+
+        return $this->finalizeRoute($route, $key, $locale, $options);
+    }
+
+    /**
+     * Generate a redirect route.
+     *
+     * @param string $key
+     * @param string $destination
+     * @param int $status
+     * @param string $locale
+     * @param array $options
+     * @return \Illuminate\Routing\Route
+     */
+    protected function generateRedirectRoute(string $key, string $destination, int $status, string $locale, array $options): Route
+    {
+        $route = $this->router->any(
+            $this->applyUniqueRegistrationKey(
+                $this->generateUriFromKey($key, $locale),
+                $locale
+            ),
+            '\Illuminate\Routing\RedirectController'
+        );
+
+        $route->defaults('destination', $this->cleanUri($this->applyUniqueRegistrationKey(
+            $this->generateUriFromKey($destination, $locale),
+            $locale
+        ), $locale));
+        $route->defaults('status', $status);
+        return $route;
+    }
+
+    /**
      * Register a single route.
      *
      * @param  string  $key
@@ -64,28 +135,7 @@ class MultilingualRegistrar
     {
         $route = $this->generateRoute($key, $handle, $locale, $options);
 
-        $this->applyConstraints($route, $locale, $options);
-
-        if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
-            $route->setUri("{$prefix}/{$route->uri}");
-        }
-
-        if ($middleware = Arr::get($options, 'middleware')) {
-            $route->middleware($middleware);
-        }
-
-        data_set($route, 'action.as', (
-            $this->generateNameForLocaleFromOptions(
-                $locale,
-                $key,
-                array_merge(
-                    ['as' => data_get($route, 'action.as')],
-                    $options
-                )
-            )
-        ));
-
-        return $this->cleanUniqueRegistrationKey($route, $locale);
+        return $this->finalizeRoute($route, $key, $locale, $options);
     }
 
     /**
@@ -120,6 +170,41 @@ class MultilingualRegistrar
     }
 
     /**
+     * Finalize route registration.
+     *
+     * @param \Illuminate\Routing\Route $route
+     * @param string $key
+     * @param string $locale
+     * @param array $options
+     * @return \Illuminate\Routing\Route
+     */
+    protected function finalizeRoute(Route $route, string $key, string $locale, array $options): Route
+    {
+        $this->applyConstraints($route, $locale, $options);
+
+        if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
+            $route->setUri("{$prefix}/{$route->uri}");
+        }
+
+        if ($middleware = Arr::get($options, 'middleware')) {
+            $route->middleware($middleware);
+        }
+
+        data_set($route, 'action.as', (
+        $this->generateNameForLocaleFromOptions(
+            $locale,
+            $key,
+            array_merge(
+                ['as' => data_get($route, 'action.as')],
+                $options
+            )
+        )
+        ));
+
+        return $this->cleanUniqueRegistrationKey($route, $locale);
+    }
+
+    /**
      * Retrieve the request method from the options.
      *
      * @param  array  $options
@@ -129,7 +214,7 @@ class MultilingualRegistrar
     {
         $method = $options['method'] ?? 'get';
 
-        if ($method == 'get') {
+        if ($method === 'get') {
             return ['GET', 'HEAD'];
         }
 
@@ -150,8 +235,8 @@ class MultilingualRegistrar
 
         if ($prefix = Arr::get($options, 'as')) {
             return config('laravel-multilingual-routes.name_prefix_before_locale')
-                ? "{$prefix}{$locale}.{$name}"
-                : "{$locale}.{$prefix}{$name}";
+                ? "{$prefix}{$locale}.$name"
+                : "$locale.{$prefix}{$name}";
         }
 
         return "{$locale}.{$name}";
@@ -166,7 +251,7 @@ class MultilingualRegistrar
      */
     protected function generatePrefixForLocale(string $key, string $locale): ?string
     {
-        if ($key == '/' || $this->shouldNotPrefixLocale($locale)) {
+        if ($key === '/' || $this->shouldNotPrefixLocale($locale)) {
             return null;
         }
 
@@ -182,12 +267,12 @@ class MultilingualRegistrar
      */
     protected function generateUriFromKey(string $key, string $locale): string
     {
-        if ($key == '/') {
-            return $this->shouldNotPrefixHome($locale) ? '/' : "/{$locale}";
+        if ($key === '/') {
+            return $this->shouldNotPrefixHome($locale) ? '/' : "/$locale";
         }
 
-        return Lang::has("routes.{$key}", $locale)
-            ? trans("routes.{$key}", [], $locale)
+        return Lang::has("routes.$key", $locale)
+            ? trans("routes.$key", [], $locale)
             : $key;
     }
 
@@ -213,7 +298,31 @@ class MultilingualRegistrar
      */
     protected function cleanUniqueRegistrationKey(Route $route, string $locale): Route
     {
-        return $route->setUri(rtrim(str_replace("__{$locale}__", '', $route->uri), '/'));
+        return $route->setUri($this->cleanRoute($route, $locale));
+    }
+
+    /**
+     * Clean route uri from locale
+     *
+     * @param \Illuminate\Routing\Route $route
+     * @param string $locale
+     * @return string
+     */
+    protected function cleanRoute(Route $route, string $locale): string
+    {
+        return $this->cleanUri($route->uri, $locale);
+    }
+
+    /**
+     * Clean uri from locale
+     *
+     * @param string $uri
+     * @param string $locale
+     * @return string
+     */
+    protected function cleanUri(string $uri, string $locale): string
+    {
+        return rtrim(str_replace("__{$locale}__", '', $uri), '/');
     }
 
     /**
@@ -224,7 +333,7 @@ class MultilingualRegistrar
      */
     protected function shouldNotPrefixLocale(string $locale): bool
     {
-        return $locale == config('laravel-multilingual-routes.default')
+        return $locale === config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default');
     }
 
@@ -248,7 +357,7 @@ class MultilingualRegistrar
      */
     protected function shouldNotPrefixDefaultHome(string $locale): bool
     {
-        return $locale == config('laravel-multilingual-routes.default')
+        return $locale === config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default_home');
     }
 
@@ -260,11 +369,11 @@ class MultilingualRegistrar
      * @param  array  $options
      * @return void
      */
-    protected function applyConstraints(Route $route, string $locale, $options): void
+    protected function applyConstraints(Route $route, string $locale, array $options): void
     {
         $constraints = array_merge(
             Arr::get($options, 'constraints', []),
-            Arr::get($options, "constraints-{$locale}", [])
+            Arr::get($options, "constraints-$locale", [])
         );
 
         foreach ($constraints as $name => $expression) {

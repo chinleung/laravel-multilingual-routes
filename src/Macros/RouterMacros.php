@@ -6,6 +6,10 @@ use ChinLeung\MultilingualRoutes\MultilingualRegistrar;
 use ChinLeung\MultilingualRoutes\MultilingualRoutePendingRegistration;
 use Closure;
 
+/**
+ * Class RouterMacros
+ *
+ */
 class RouterMacros
 {
     /**
@@ -23,7 +27,7 @@ class RouterMacros
                 $this->container && $this->container->bound(MultilingualRegistrar::class)
                     ? $this->container->make(MultilingualRegistrar::class)
                     : new MultilingualRegistrar($this),
-                $key == '/' ? $key : ltrim($key, '/'),
+                $key === '/' ? $key : ltrim($key, '/'),
                 $handle,
                 $locales ?: locales()
             );
