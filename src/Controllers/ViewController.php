@@ -15,7 +15,7 @@ class ViewController
      * @param  array  $headers
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(string $view, array $data = [], int $status = 200, array $headers = [])
+    public function __invoke(string $view, array $data = [], int $status = 200, array $headers = []): \Illuminate\Http\Response
     {
         return Response::view($view, $data, $status, $headers);
     }

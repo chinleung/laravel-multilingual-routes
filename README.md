@@ -188,6 +188,13 @@ Route::multilingual('test')->data(['name' => 'Taylor']);
 Route::multilingual('test')->view('welcome', ['name' => 'Taylor']);
 ```
 
+### Redirect localized route
+
+```php
+Route::multilingual('support');
+Route::multilingual('contact')->redirect('support');
+```
+
 ## Upgrading from 1.x to 2.x
 
 To update from 1.x to 2.x, you simply have to rename the namespace occurrences in your application from `LaravelMultilingualRoutes` to `MultilingualRoutes`. The most common use case would be the `DetectRequestLocale` middleware.

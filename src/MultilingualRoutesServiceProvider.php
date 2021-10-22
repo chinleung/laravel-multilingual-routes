@@ -14,8 +14,10 @@ class MultilingualRoutesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
+     *
+     * @throws \ReflectionException
      */
-    public function boot()
+    public function boot(): void
     {
         Redirect::mixin(new RedirectorMacros);
         Request::mixin(new RequestMacros);
@@ -33,7 +35,7 @@ class MultilingualRoutesServiceProvider extends ServiceProvider
     /**
      * Register the application services.
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-multilingual-routes');
     }
