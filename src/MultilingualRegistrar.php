@@ -202,9 +202,9 @@ class MultilingualRegistrar
             )
         )
         ));
-        
+
         $route = $this->cleanUniqueRegistrationKey($route, $locale);
-        
+
         if (method_exists($route, 'setBindingFields')) {
             $route->setBindingFields($bindingFields);
         }
