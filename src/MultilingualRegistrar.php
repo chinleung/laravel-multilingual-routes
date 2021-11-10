@@ -180,6 +180,8 @@ class MultilingualRegistrar
      */
     protected function finalizeRoute(Route $route, string $key, string $locale, array $options): Route
     {
+        $bindingFields = $route->bindingFields();
+
         $this->applyConstraints($route, $locale, $options);
 
         if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
@@ -201,7 +203,8 @@ class MultilingualRegistrar
         )
         ));
 
-        return $this->cleanUniqueRegistrationKey($route, $locale);
+        return $this->cleanUniqueRegistrationKey($route, $locale)
+            ->setBindingFields($bindingFields);
     }
 
     /**
