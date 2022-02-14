@@ -7,6 +7,10 @@
 
 A package to register multilingual routes for your application.
 
+## Versioning
+
+For those using a version older than Laravel 9, please refer to the [v2](https://github.com/chinleung/laravel-multilingual-routes/tree/v2) branch.
+
 ## Installation
 
 You can install the package via composer:
