@@ -166,7 +166,6 @@ class MultilingualRegistrar
                 ->defaults('headers', Arr::get($options, 'headers', []));
         }
 
-
         $route->action['prefix'] = null;
 
         return $route;
