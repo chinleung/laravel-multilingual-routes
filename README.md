@@ -9,7 +9,11 @@ A package to register multilingual routes for your application.
 
 ## Versioning
 
-For those using a version older than Laravel 9, please refer to the [v2](https://github.com/chinleung/laravel-multilingual-routes/tree/v2) branch.
+| Version  | Laravel Version |
+| ------------- | ------------- |
+| v4 | 10.x  |
+| v3  | 9.x  |
+| v2  | Older than 9.x  |
 
 ## Installation
 
