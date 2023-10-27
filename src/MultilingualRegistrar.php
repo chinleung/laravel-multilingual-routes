@@ -152,7 +152,9 @@ class MultilingualRegistrar
         $route = $this->router->addRoute(
             $this->getRequestMethodFromOptions($options),
             $this->applyUniqueRegistrationKey(
-                $this->generateUriFromKey($key, $locale),
+                $this->router->getLastGroupPrefix()
+                    ? $key
+                    : $this->generateUriFromKey($key, $locale),
                 $locale
             ),
             $handle ?: '\ChinLeung\MultilingualRoutes\Controllers\ViewController'
@@ -188,6 +190,12 @@ class MultilingualRegistrar
 
         $this->applyConstraints($route, $locale, $options);
 
+        $route = $this->cleanUniqueRegistrationKey($route, $locale);
+
+        if ($this->router->getLastGroupPrefix()) {
+            $route->setUri($this->generateUriFromKey($route->uri, $locale));
+        }
+
         if ($prefix = $this->generatePrefixForLocale($key, $locale)) {
             $route->setUri("{$prefix}/{$route->uri}");
         }
@@ -206,8 +214,6 @@ class MultilingualRegistrar
                 $options
             )
         ));
-
-        $route = $this->cleanUniqueRegistrationKey($route, $locale);
 
         if (method_exists($route, 'setBindingFields')) {
             $route->setBindingFields($bindingFields);

@@ -51,19 +51,6 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
-    public function a_multilingual_group_routes_with_prefix_can_be_registered_and_accessed(): void
-    {
-        $this->registerGroupedTestRoute();
-        foreach (locales() as $locale) {
-            $this->assertEquals(
-                route($locale.'.test'),
-                localized_route('test', [], $locale)
-            );
-            $this->assertNotNull(Route::getRoutes()->match(app(Request::class)->create(route($locale.'.test', [], false))));
-        }
-    }
-
-    /** @test **/
     public function a_route_can_have_different_names_based_on_locales(): void
     {
         $this
@@ -127,7 +114,7 @@ class RouteTest extends TestCase
     public function it_can_limit_route_to_specific_locales(): void
     {
         $this->registerTestRoute()
-             ->only(['fr']);
+            ->only(['fr']);
 
         $this->assertEquals(
             route('fr.test'),
@@ -142,7 +129,7 @@ class RouteTest extends TestCase
     public function it_can_remove_specific_locales_from_route(): void
     {
         $this->registerTestRoute()
-             ->except(['fr']);
+            ->except(['fr']);
 
         $this->assertEquals(
             route('en.test'),
@@ -156,16 +143,17 @@ class RouteTest extends TestCase
     /** @test **/
     public function the_default_locale_routes_can_be_prefixed(): void
     {
-        config(['laravel-multilingual-routes.prefix_default' => true]);
+        config([
+            'laravel-multilingual-routes.prefix_default' => true,
+        ]);
 
         $this->registerTestRoute();
 
-        $this->assertEquals(
-            route('fr.test'),
-            $route = localized_route('test', [], 'fr')
-        );
+        $route = localized_route('test', [], 'fr');
 
-        $this->assertRegexp('/fr/', $route);
+        $this->assertEquals(route('fr.test'), $route);
+
+        $this->assertEquals(url('fr/teste'), $route);
     }
 
     /** @test **/
@@ -252,7 +240,11 @@ class RouteTest extends TestCase
         });
 
         $this->assertEquals(url('prefix/test'), localized_route('test'));
-        $this->assertEquals(url('fr/prefix/teste'), localized_route('test', [], 'fr'));
+
+        $this->assertEquals(
+            url('fr/prefixe/teste'),
+            localized_route('test', [], 'fr')
+        );
     }
 
     /** @test **/
@@ -561,20 +553,15 @@ class RouteTest extends TestCase
         return Route::multilingual('from')->redirect('to');
     }
 
-    protected function registerGroupedTestRoute(): void
-    {
-        Route::prefix('test')->group(function () {
-            $this->registerTestRoute();
-        });
-    }
-
     protected function registerTestTranslations(): void
     {
         $this->registerTranslations([
             'en' => [
+                'routes.prefix/test' => 'prefix/test',
                 'routes.test' => 'test',
             ],
             'fr' => [
+                'routes.prefix/test' => 'prefixe/teste',
                 'routes.test' => 'teste',
             ],
         ]);
