@@ -182,7 +182,9 @@ class MultilingualRegistrar
      */
     protected function finalizeRoute(Route $route, string $key, string $locale, array $options): Route
     {
-        $bindingFields = method_exists($route, 'bindingFields') ? $route->bindingFields() : [];
+        $bindingFields = method_exists($route, 'bindingFields')
+            ? $route->bindingFields()
+            : [];
 
         $this->applyConstraints($route, $locale, $options);
 
@@ -194,15 +196,15 @@ class MultilingualRegistrar
             $route->middleware($middleware);
         }
 
-        data_set($route, 'action.as', (
-        $this->generateNameForLocaleFromOptions(
+        data_set($route, 'action.as', $this->generateNameForLocaleFromOptions(
             $locale,
             $key,
             array_merge(
-                ['as' => data_get($route, 'action.as')],
+                [
+                    'as' => data_get($route, 'action.as'),
+                ],
                 $options
             )
-        )
         ));
 
         $route = $this->cleanUniqueRegistrationKey($route, $locale);
@@ -245,8 +247,8 @@ class MultilingualRegistrar
 
         if ($prefix = Arr::get($options, 'as')) {
             return config('laravel-multilingual-routes.name_prefix_before_locale')
-                ? "{$prefix}{$locale}.$name"
-                : "$locale.{$prefix}{$name}";
+                ? "{$prefix}{$locale}.{$name}"
+                : "{$locale}.{$prefix}{$name}";
         }
 
         return "{$locale}.{$name}";
@@ -278,11 +280,11 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale): string
     {
         if ($key === '/') {
-            return $this->shouldNotPrefixHome($locale) ? '/' : "/$locale";
+            return $this->shouldNotPrefixHome($locale) ? '/' : "/{$locale}";
         }
 
-        return Lang::has("routes.$key", $locale)
-            ? trans("routes.$key", [], $locale)
+        return Lang::has("routes.{$key}", $locale)
+            ? trans("routes.{$key}", [], $locale)
             : $key;
     }
 
@@ -383,7 +385,7 @@ class MultilingualRegistrar
     {
         $constraints = array_merge(
             Arr::get($options, 'constraints', []),
-            Arr::get($options, "constraints-$locale", [])
+            Arr::get($options, "constraints-{$locale}", [])
         );
 
         foreach ($constraints as $name => $expression) {
