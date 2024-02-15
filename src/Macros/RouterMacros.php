@@ -40,9 +40,10 @@ class RouterMacros
     {
         return function ($name) {
             $names = array_map(
-                static fn ($pattern) => locale() . ".{$pattern}",
+                static fn ($pattern) => locale().".{$pattern}",
                 is_array($name) ? $name : func_get_args(),
             );
+
             return $this->has($names);
         };
     }
