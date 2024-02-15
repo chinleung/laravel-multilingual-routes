@@ -11,7 +11,7 @@ A package to register multilingual routes for your application.
 
 | Version  | Laravel Version |
 | ------------- | ------------- |
-| v4 | 10.x  |
+| v4 | 10.x and 11.x  |
 | v3  | 9.x  |
 | v2  | Older than 9.x  |
 
@@ -23,7 +23,22 @@ You can install the package via composer:
 composer require chinleung/laravel-multilingual-routes
 ```
 
-To detect and change the locale of the application based on the request automatically, you can add the middleware to your `app/Http/Kernel`. It must be the first item in the `web` middleware group.
+### Laravel 11 and newer
+
+To detect and change the locale of the application based on the request automatically, you can prepend `DetectRequestLocale` to the web middlewares in `bootstrap/app.php`.
+
+``` php
+$middleware->web(
+    append: [],
+    prepend: [
+        \ChinLeung\MultilingualRoutes\DetectRequestLocale::class,
+    ]
+);
+```
+
+### Laravel 10 and older
+
+If you're using an older version of Laravel, or are otherwise implementing `HttpKernel`, you can add `DetectRequestLocale` to your web middleware group in `app/Http/Kernel`. It should be the first item in the array.
 
 ``` php
 protected $middlewareGroups = [
