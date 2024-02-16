@@ -209,6 +209,13 @@ Route::multilingual('contact')->redirect('support');
 Request::localizedRouteIs('home');
 ```
 
+### Signing localized routes
+
+```php
+URL::signedLocalizedRoute('unsubscribe', ['user' => 1]);
+URL::temporarySignedLocalizedRoute('unsubscribe', now()->addMinutes(30), ['user' => 1]);
+```
+
 ## Upgrading from 1.x to 2.x
 
 To update from 1.x to 2.x, you simply have to rename the namespace occurrences in your application from `LaravelMultilingualRoutes` to `MultilingualRoutes`. The most common use case would be the `DetectRequestLocale` middleware.
