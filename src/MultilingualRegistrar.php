@@ -286,7 +286,7 @@ class MultilingualRegistrar
     protected function generateUriFromKey(string $key, string $locale): string
     {
         if ($key === '/') {
-            return $this->shouldNotPrefixHome($locale) ? '/' : "/{$locale}";
+            return $this->shouldNotPrefixHome($locale) ? '/' : $locale;
         }
 
         return Lang::has("routes.{$key}", $locale)
