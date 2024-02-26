@@ -1,15 +1,19 @@
 name: tests
-on: [push, pull_request]
+
+on:
+  - push
+  - pull_request
 
 jobs:
   tests:
     name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: true
       matrix:
-        php: [8.1]
+        php: [8.1, '8.2']
         stability: [prefer-lowest, prefer-stable]
 
     steps:
@@ -33,4 +37,3 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit --colors --verbose
-
