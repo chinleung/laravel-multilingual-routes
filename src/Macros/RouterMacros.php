@@ -29,4 +29,22 @@ class RouterMacros
             );
         };
     }
+
+    /**
+     * Check if a route with the given name exists for the current locale.
+     *
+     * @param  string|array  $name
+     * @return \Closure
+     */
+    public function hasLocalized(): Closure
+    {
+        return function ($name) {
+            $names = array_map(
+                static fn ($pattern) => locale().".{$pattern}",
+                is_array($name) ? $name : func_get_args(),
+            );
+
+            return $this->has($names);
+        };
+    }
 }

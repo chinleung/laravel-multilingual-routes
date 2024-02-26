@@ -522,6 +522,17 @@ class RouteTest extends TestCase
         }
     }
 
+    /** @test **/
+    public function a_named_route_can_be_checked_if_it_exists(): void
+    {
+        $this
+            ->registerTestRoute()
+            ->name('foo');
+
+        $this->assertTrue(Route::hasLocalized('foo'));
+        $this->assertFalse(Route::hasLocalized('bar'));
+    }
+
     protected function registerTestRoute(): MultilingualRoutePendingRegistration
     {
         $this->registerTestTranslations();
