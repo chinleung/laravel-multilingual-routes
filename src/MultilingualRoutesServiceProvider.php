@@ -5,8 +5,10 @@ namespace ChinLeung\MultilingualRoutes;
 use ChinLeung\MultilingualRoutes\Macros\RedirectorMacros;
 use ChinLeung\MultilingualRoutes\Macros\RequestMacros;
 use ChinLeung\MultilingualRoutes\Macros\RouterMacros;
+use ChinLeung\MultilingualRoutes\Macros\UrlGeneratorMacros;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +24,7 @@ class MultilingualRoutesServiceProvider extends ServiceProvider
         Redirect::mixin(new RedirectorMacros);
         Request::mixin(new RequestMacros);
         Router::mixin(new RouterMacros);
+        UrlGenerator::mixin(new UrlGeneratorMacros);
 
         require __DIR__.'/helpers.php';
 
