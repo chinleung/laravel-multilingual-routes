@@ -269,7 +269,7 @@ class MultilingualRegistrar
      */
     protected function generatePrefixForLocale(string $key, string $locale): ?string
     {
-        if ($key === '/' || $this->shouldNotPrefixLocale($locale)) {
+        if (($key === '/' && !$this->router->getLastGroupPrefix()) || $this->shouldNotPrefixLocale($locale)) {
             return null;
         }
 

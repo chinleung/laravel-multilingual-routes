@@ -248,6 +248,23 @@ class RouteTest extends TestCase
     }
 
     /** @test **/
+    public function a_root_route_with_prefix_stack_can_be_registered(): void
+    {
+        $this->registerTestTranslations();
+
+        Route::prefix('prefix')->group(static function () {
+            Route::multilingual('/')->name('test');
+        });
+
+        $this->assertEquals(url('prefix'), localized_route('test'));
+
+        $this->assertEquals(
+            url('fr/prefixe'),
+            localized_route('test', [], 'fr')
+        );
+    }
+
+    /** @test **/
     public function a_view_route_can_be_registered(): void
     {
         Route::multilingual('/')->view('app')->name('home');
@@ -569,10 +586,12 @@ class RouteTest extends TestCase
         $this->registerTranslations([
             'en' => [
                 'routes.prefix/test' => 'prefix/test',
+                'routes.prefix' => 'prefix',
                 'routes.test' => 'test',
             ],
             'fr' => [
                 'routes.prefix/test' => 'prefixe/teste',
+                'routes.prefix' => 'prefixe',
                 'routes.test' => 'teste',
             ],
         ]);
