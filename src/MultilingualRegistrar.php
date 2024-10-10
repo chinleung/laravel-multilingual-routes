@@ -204,6 +204,10 @@ class MultilingualRegistrar
             $route->middleware($middleware);
         }
 
+        if ($route->uri === '') {
+            $route->setUri('/');
+        }
+
         data_set($route, 'action.as', $this->generateNameForLocaleFromOptions(
             $locale,
             $key,
