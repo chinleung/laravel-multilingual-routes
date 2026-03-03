@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteTest extends TestCase
@@ -24,7 +25,7 @@ class RouteTest extends TestCase
         ]]);
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_route_can_be_registered(): void
     {
         $this->registerTestRoute();
@@ -37,7 +38,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_redirect_route_can_be_registered(): void
     {
         $this->registerTestRedirectToRoute();
@@ -50,7 +51,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_can_have_different_names_based_on_locales(): void
     {
         $this
@@ -71,7 +72,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function the_group_name_can_be_renamed(): void
     {
         $this
@@ -86,7 +87,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function the_locale_name_has_priority_over_group_name(): void
     {
         $this
@@ -110,7 +111,7 @@ class RouteTest extends TestCase
         localized_route('foo', [], 'fr');
     }
 
-    /** @test **/
+    #[Test]
     public function it_can_limit_route_to_specific_locales(): void
     {
         $this->registerTestRoute()
@@ -125,7 +126,7 @@ class RouteTest extends TestCase
         localized_route('test', [], 'en');
     }
 
-    /** @test **/
+    #[Test]
     public function it_can_remove_specific_locales_from_route(): void
     {
         $this->registerTestRoute()
@@ -140,7 +141,7 @@ class RouteTest extends TestCase
         localized_route('test', [], 'fr');
     }
 
-    /** @test **/
+    #[Test]
     public function the_default_locale_routes_can_be_prefixed(): void
     {
         config([
@@ -156,7 +157,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/teste'), $route);
     }
 
-    /** @test **/
+    #[Test]
     public function it_can_register_a_post_route(): void
     {
         $routes = $this
@@ -165,7 +166,7 @@ class RouteTest extends TestCase
             ->register();
 
         $routes = collect($routes)->reject(function ($route) {
-            return $route->getName() === 'storage.local';
+            return str_starts_with($route->getName() ?? '', 'storage.local');
         });
 
         foreach ($routes as $route) {
@@ -176,7 +177,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function the_app_locale_will_be_used_in_case_of_wrong_locale(): void
     {
         $this->registerTestRoute();
@@ -187,7 +188,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function the_request_locale_can_be_changed_by_the_middleware(): void
     {
         $this->registerTestRoute();
@@ -205,7 +206,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function the_home_page_can_be_registered(): void
     {
         Route::multilingual('/', static function () {
@@ -216,7 +217,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_without_handle_can_be_registered(): void
     {
         $this->registerTestTranslations();
@@ -227,7 +228,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/teste'), localized_route('test', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_with_identical_keys_can_be_registered(): void
     {
         Route::multilingual('test');
@@ -236,7 +237,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/test'), localized_route('test', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_with_prefix_stack_can_be_registered(): void
     {
         $this->registerTestTranslations();
@@ -253,7 +254,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function a_root_route_with_prefix_stack_can_be_registered(): void
     {
         $this->registerTestTranslations();
@@ -270,7 +271,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function a_view_route_can_be_registered(): void
     {
         Route::multilingual('/')->view('app')->name('home');
@@ -279,7 +280,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_view_route_can_be_registered_with_custom_data(): void
     {
         Route::multilingual('/')->name('home')->view('app', [
@@ -296,7 +297,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_view_route_can_be_registered_with_custom_data_via_method(): void
     {
         Route::multilingual('/')->name('home')->view('app')->data([
@@ -313,7 +314,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_param_can_have_constraints(): void
     {
         $this->registerTranslations([
@@ -334,7 +335,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_param_can_have_constraints_by_locale(): void
     {
         $this->registerTranslations([
@@ -359,7 +360,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_without_translation_will_be_registered_with_its_key(): void
     {
         Route::multilingual('test');
@@ -368,7 +369,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/test'), localized_route('test', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_starting_slash_will_be_trimmed_from_translation(): void
     {
         $this->registerTestTranslations();
@@ -381,7 +382,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr/teste'), localized_route('test', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function the_current_route_can_be_retrieved_in_a_different_locale(): void
     {
         $this->registerTestRoute();
@@ -391,7 +392,7 @@ class RouteTest extends TestCase
         $this->assertEquals(localized_route('test', [], 'fr'), current_route('fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function the_current_route_can_be_retrieved_in_a_different_locale_with_query_strings(): void
     {
         $this->registerTestRoute();
@@ -410,7 +411,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function the_current_route_will_fallback_to_current_route_by_default(): void
     {
         Route::view('test', 'app');
@@ -424,7 +425,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('test'), current_route('fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function the_current_route_can_have_a_custom_fallback(): void
     {
         Route::view('test', 'app');
@@ -442,7 +443,7 @@ class RouteTest extends TestCase
         );
     }
 
-    /** @test **/
+    #[Test]
     public function the_current_route_for_a_missing_page_will_return_the_custom_fallback(): void
     {
         Route::view('fallback', 'app');
@@ -461,7 +462,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_prefix_can_be_registered_after_the_locale(): void
     {
         Route::name('prefix.')->group(static function () {
@@ -472,7 +473,7 @@ class RouteTest extends TestCase
         $this->assertNotNull(localized_route('prefix.test', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_prefix_can_be_registered_before_the_locale(): void
     {
         config([
@@ -487,7 +488,7 @@ class RouteTest extends TestCase
         $this->assertNotNull(route('prefix.fr.test'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_with_defaults_parameters_can_be_registered(): void
     {
         $params = ['param_1' => 'value_1', 'param_2' => 'value_2'];
@@ -503,7 +504,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function the_default_home_page_can_be_registered_with_prefix(): void
     {
         config([
@@ -519,7 +520,7 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function the_default_home_page_can_be_registered_without_prefix(): void
     {
         config([
@@ -535,13 +536,13 @@ class RouteTest extends TestCase
         $this->assertEquals(url('fr'), localized_route('home', [], 'fr'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_route_can_be_registered_with_a_middleware(): void
     {
         Route::multilingual('/')->middleware('web');
 
         $routes = collect(Route::getRoutes())->reject(function ($route) {
-            return $route->getName() === 'storage.local';
+            return str_starts_with($route->getName() ?? '', 'storage.local');
         });
 
         foreach ($routes as $route) {
@@ -549,7 +550,7 @@ class RouteTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_named_route_can_be_checked_if_it_exists(): void
     {
         $this

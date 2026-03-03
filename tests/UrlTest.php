@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class UrlTest extends TestCase
 {
@@ -18,7 +19,7 @@ class UrlTest extends TestCase
         ]]);
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_route_can_be_signed(): void
     {
         Route::multilingual('test');
@@ -29,7 +30,7 @@ class UrlTest extends TestCase
         $this->assertTrue(str_starts_with($request->url(), localized_route('test')));
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_route_can_be_signed_with_temporary_signature(): void
     {
         Route::multilingual('test');

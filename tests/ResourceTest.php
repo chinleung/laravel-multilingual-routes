@@ -6,6 +6,7 @@ use ChinLeung\LaravelLocales\LaravelLocalesServiceProvider;
 use ChinLeung\MultilingualRoutes\MultilingualRoutesServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourceTest extends TestCase
 {
@@ -18,7 +19,7 @@ class ResourceTest extends TestCase
         ]]);
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_route_can_be_registered(): void
     {
         $this->registerTestTranslations();
@@ -50,7 +51,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_translated_uris(): void
     {
         $this->registerTestTranslations();
@@ -66,7 +67,7 @@ class ResourceTest extends TestCase
         $this->assertStringContainsString('fr/photos', $frIndexRoute->uri);
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_be_limited_to_specific_actions(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->only(['index', 'show']);
@@ -85,7 +86,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_exclude_specific_actions(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->except(['create', 'edit']);
@@ -104,7 +105,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_have_custom_parameter_names(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->parameters([
@@ -126,7 +127,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_be_limited_to_specific_locales(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->onlyLocales(['fr']);
@@ -136,7 +137,7 @@ class ResourceTest extends TestCase
         $this->assertFalse(Route::has('en.photos.index'));
     }
 
-    /** @test **/
+    #[Test]
     public function multilingual_resource_generates_correct_route_uris(): void
     {
         $this->registerTestTranslations();
@@ -185,7 +186,7 @@ class ResourceTest extends TestCase
         return $this;
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_name_method(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->name('gallery');
@@ -200,7 +201,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_middleware(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->middleware('auth');
@@ -211,7 +212,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_where_constraints(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->where('photos', '[0-9]+');
@@ -222,7 +223,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_defaults(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->defaults(['format' => 'json']);
@@ -233,7 +234,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_exclude_locales(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->exceptLocales(['en']);
@@ -243,7 +244,7 @@ class ResourceTest extends TestCase
         $this->assertFalse(Route::has('en.photos.index'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_names_array(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->names([
@@ -259,7 +260,7 @@ class ResourceTest extends TestCase
         $this->assertFalse(Route::has('fr.photos.index'));
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_missing_callback(): void
     {
         $callbackExecuted = false;
@@ -277,7 +278,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_with_trashed(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->withTrashed(['show', 'edit']);
@@ -296,7 +297,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_use_where_param(): void
     {
         Route::multilingualResource('photos', 'PhotoController')->whereParam('photos', '[0-9]+');
@@ -307,7 +308,7 @@ class ResourceTest extends TestCase
         }
     }
 
-    /** @test **/
+    #[Test]
     public function a_multilingual_resource_can_chain_multiple_methods(): void
     {
         Route::multilingualResource('photos', 'PhotoController')

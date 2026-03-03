@@ -7,10 +7,11 @@ use ChinLeung\MultilingualRoutes\MultilingualRoutesServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequestTest extends TestCase
 {
-    /** @test **/
+    #[Test]
     public function a_request_name_can_be_matched(): void
     {
         Route::multilingual('test');
