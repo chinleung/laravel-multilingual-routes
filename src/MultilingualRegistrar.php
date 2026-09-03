@@ -2,6 +2,7 @@
 
 namespace ChinLeung\MultilingualRoutes;
 
+use ChinLeung\MultilingualRoutes\Controllers\RedirectController;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router;
@@ -46,6 +47,8 @@ class MultilingualRegistrar
                     $route->defaults($paramKey, $paramValue);
                 }
             }
+
+            $this->registerUnprefixedRedirect($route, $locale);
         }
 
         return tap($this->router->getRoutes())->refreshNameLookups();
@@ -71,6 +74,8 @@ class MultilingualRegistrar
                     $route->defaults($paramKey, $paramValue);
                 }
             }
+
+            $this->registerUnprefixedRedirect($route, $locale);
         }
 
         return tap($this->router->getRoutes())->refreshNameLookups();
@@ -390,6 +395,41 @@ class MultilingualRegistrar
     {
         return $locale === config('laravel-multilingual-routes.default')
             && ! config('laravel-multilingual-routes.prefix_default_home');
+    }
+
+    /**
+     * Register a redirect to a prefixed default locale route.
+     *
+     * @param  \Illuminate\Routing\Route  $route
+     * @param  string  $locale
+     * @return void
+     */
+    protected function registerUnprefixedRedirect(Route $route, string $locale): void
+    {
+        if (
+            ! config('laravel-multilingual-routes.redirect_unprefixed')
+            || $locale !== config('laravel-multilingual-routes.default')
+            || ! config('laravel-multilingual-routes.prefix_default')
+            || ! in_array('GET', $route->methods, true)
+            || ($route->uri === $locale && ! config('laravel-multilingual-routes.prefix_default_home'))
+            || ($route->uri !== $locale && ! str_starts_with($route->uri, "{$locale}/"))
+        ) {
+            return;
+        }
+
+        $redirect = new Route(
+            ['GET', 'HEAD'],
+            $route->uri === $locale ? '/' : substr($route->uri, strlen($locale) + 1),
+            array_merge(Arr::except($route->action, ['as', 'controller', 'prefix']), [
+                'uses' => RedirectController::class,
+                RedirectController::DESTINATION => "/{$route->uri}",
+            ])
+        );
+
+        $redirect->wheres = $route->wheres;
+        $redirect->defaults = $route->defaults;
+
+        $this->router->getRoutes()->add($redirect);
     }
 
     /**

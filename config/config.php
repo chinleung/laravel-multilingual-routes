@@ -47,4 +47,18 @@ return [
     */
 
     'name_prefix_before_locale' => env('MULTILINGUAL_ROUTES_NAME_PREFIX_BEFORE_LOCALE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Redirect Unprefixed Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The configuration option that defines if routes without a locale prefix
+    | should be redirected to the default locale.
+    |
+    | Applies only if the default locale is prefixed.
+    |
+    */
+
+    'redirect_unprefixed' => env('MULTILINGUAL_ROUTES_REDIRECT_UNPREFIXED', false),
 ];
